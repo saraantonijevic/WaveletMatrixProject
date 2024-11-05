@@ -1,0 +1,14 @@
+Package: WaveletMatrixProject
+Title: Orthogonal Discrete Wavelet Transformation with Matrix Representations
+Version: 0.1.0
+Authors@R: person("Sara", "Antonijevic", email = "saraant@tamu.edu", role = c("aut", "cre"), comment = c(ORCID = "0009-0006-0142-8860"))
+Description: Provides orthogonal discrete wavelet transformations using matrix representations for efficient computation in R.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Depends: 
+    R (>= 2.10)
+Imports:
+    Matrix
+LazyData: true
