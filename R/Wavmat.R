@@ -1,66 +1,67 @@
-#' Enhanced Wavelet Packet Transformation Matrix
+#' Construct Highly Optimized Orthogonal Wavelet Transformation Matrix
 #'
-#' Constructs an optimized wavelet transformation matrix with additional refinements
-#' for better image fidelity in wavelet-based transformations.
+#' This function creates an optimized wavelet transformation matrix for high-quality filter coefficients
+#' and sparse matrix operations.
 #'
 #' @param h Numeric vector representing the low-pass filter.
-#' @param N Integer size of the matrix (must be a power of 2).
-#' @param k0 Integer depth of transformation.
-#' @param shift Integer shift for the wavelet transformation (default 2).
-#' @param normalize Logical, whether to normalize matrix (default TRUE).
-#' @return A sparse matrix for wavelet packet transformation.
-#' @importFrom Matrix sparseMatrix
-#' @importFrom Matrix rBind
+#' @param N Integer specifying the size of the matrix. Must be a power of 2.
+#' @param k0 Integer specifying the depth of the wavelet transformation. Should be between 1 and log2(N).
+#' @param shift Integer for shifts in the wavelet transformation (default is 2).
+#' @return A sparse matrix representing the wavelet packet transformation.
 #' @export
-WavPackMat <- function(h, N, k0, shift = 2, normalize = TRUE) {
-  # Validate N
+#' @importFrom Matrix rBind
+WavPackMat <- function(h, N, k0, shift = 2) {
   J <- log2(N)
-  if (J != floor(J)) stop("N must be a power of 2.")
-
-  # Normalize and refine filter coefficients
-  h <- h / sqrt(sum(h^2)) # Normalized low-pass filter
-  g <- rev(h * (-1)^(1:length(h))) # High-pass filter
-
-  # Initialize transformation matrix
-  WP <- sparseMatrix(i = integer(0), j = integer(0), dims = c(N, N))
-  for (k in 1:k0) {
-    subW <- getEnhancedSubW(k, h, g, J, N, shift)
-    WP <- rBind(WP, subW)
+  if (J != floor(J)) {
+    stop("N has to be a power of 2.")
   }
 
-  # Normalize wavelet matrix if specified
-  if (normalize) WP <- WP * sqrt(1 / k0)
+  # Make QM filter G
+  # Make QM filter G
+  h <- as.vector(h)
+  g <- rev(Conj(h) * (-1)^(1:length(h)))
+
+
+  h <- c(h, rep(0, N - length(h)))
+  g <- c(g, rep(0, N - length(g)))
+
+  WP <- matrix(nrow = 0, ncol = N)
+  for (k in 1:k0) {
+    subW <- getsubW(k, h, g, J, N)
+    WP <- Matrix::rBind(WP, subW)
+  }
+  WP <- sqrt(1/k0) * WP
 
   return(WP)
 }
 
-# Enhanced function for constructing sub-matrices
-getEnhancedSubW <- function(jstep, h, g, J, N, shift) {
-  subW <- sparseMatrix(i = seq(1, 2^(J - jstep)), j = seq(1, 2^(J - jstep)), x = 1)
+
+
+getsubW <- function(jstep, h, g, J, N) {
+  subW <- diag(2^(J-jstep))
   for (k in jstep:1) {
-    hgmat <- getEnhancedHGmat(k, h, g, J, N, shift)
-    subW <- rBind(subW %*% hgmat$hmat, subW %*% hgmat$gmat)
+    hgmat <- getHGmat(k, h, g, J, N)
+    subW <- rbind(subW %*% hgmat$hmat, subW %*% hgmat$gmat)
   }
   return(subW)
 }
 
-# Enhanced H and G matrix construction
-getEnhancedHGmat <- function(k, h, g, J, N, shift) {
-  ubJk <- 2^(J - k)
-  ubJk1 <- 2^(J - k + 1)
+getHGmat <- function(k, h, g, J, N) {
+  ubJk <- 2^(J-k)
+  ubJk1 <- 2^(J-k+1)
+  shift <- 2
 
-  # Sparse H and G matrices
-  hmat <- sparseMatrix(i = integer(0), j = integer(0), dims = c(ubJk1, ubJk))
-  gmat <- sparseMatrix(i = integer(0), j = integer(0), dims = c(ubJk1, ubJk))
+  hmat <- matrix(0, nrow = ubJk1, ncol = ubJk)
+  gmat <- matrix(0, nrow = ubJk1, ncol = ubJk)
 
-  # Populate with adjusted modulus calculation
   for (jj in 1:ubJk) {
     for (ii in 1:ubJk1) {
       modulus <- (N + ii - 2 * jj + shift) %% ubJk1
-      modulus <- ifelse(modulus == 0, ubJk1, modulus)
-      hmat[ii, jj] <- h[modulus] * sqrt(2) # Enhanced scaling factor
-      gmat[ii, jj] <- g[modulus] * sqrt(2)
+      modulus <- modulus + (modulus == 0) * ubJk1
+      hmat[ii, jj] <- h[modulus]
+      gmat[ii, jj] <- g[modulus]
     }
   }
-  return(list(hmat = hmat, gmat = gmat))
+
+  return(list(hmat = t(hmat), gmat = t(gmat)))
 }

@@ -2,25 +2,23 @@
 % Please edit documentation in R/Wavmat.R
 \name{WavPackMat}
 \alias{WavPackMat}
-\title{Enhanced Wavelet Packet Transformation Matrix}
+\title{Construct Highly Optimized Orthogonal Wavelet Transformation Matrix}
 \usage{
-WavPackMat(h, N, k0, shift = 2, normalize = TRUE)
+WavPackMat(h, N, k0, shift = 2)
 }
 \arguments{
 \item{h}{Numeric vector representing the low-pass filter.}
 
-\item{N}{Integer size of the matrix (must be a power of 2).}
+\item{N}{Integer specifying the size of the matrix. Must be a power of 2.}
 
-\item{k0}{Integer depth of transformation.}
+\item{k0}{Integer specifying the depth of the wavelet transformation. Should be between 1 and log2(N).}
 
-\item{shift}{Integer shift for the wavelet transformation (default 2).}
-
-\item{normalize}{Logical, whether to normalize matrix (default TRUE).}
+\item{shift}{Integer for shifts in the wavelet transformation (default is 2).}
 }
 \value{
-A sparse matrix for wavelet packet transformation.
+A sparse matrix representing the wavelet packet transformation.
 }
 \description{
-Constructs an optimized wavelet transformation matrix with additional refinements
-for better image fidelity in wavelet-based transformations.
+This function creates an optimized wavelet transformation matrix for high-quality filter coefficients
+and sparse matrix operations.
 }

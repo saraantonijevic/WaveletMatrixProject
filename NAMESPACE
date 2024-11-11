@@ -2,4 +2,3 @@
 
 export(WavPackMat)
 importFrom(Matrix,rBind)
-importFrom(Matrix,sparseMatrix)

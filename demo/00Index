@@ -1,2 +1,3 @@
 test2lena           Test script for Lena image processing.
 wavpack_lena_demo   Demonstrates wavelet transformations on the Lena image.
+lena_demo           A demo showcasing Lena image processing with wavelet transformations.
