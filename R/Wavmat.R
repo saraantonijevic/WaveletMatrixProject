@@ -28,7 +28,7 @@ WavPackMat <- function(h, N, k0, shift = 2) {
   WP <- matrix(nrow = 0, ncol = N)
   for (k in 1:k0) {
     subW <- getsubW(k, h, g, J, N)
-    WP <- Matrix::rBind(WP, subW)
+    WP <- rbind(WP, subW)
   }
   WP <- sqrt(1/k0) * WP
 
