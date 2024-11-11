@@ -11,5 +11,7 @@ Depends:
     R (>= 2.10)
 Imports:
     Matrix,
-    pracma
+    pracma,
+    ggplot2,
+    imager
 LazyData: true
