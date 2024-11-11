@@ -51,3 +51,13 @@ ggplot(data.frame(t = t, signoi = signoi, sig = sig), aes(x = t)) +
   ggtitle("Noisy Bumps Signal")
 
 
+
+# (iv) Create the wavelet transformation matrix using WavPackMat
+filt <- c(-0.07576571478934, -0.02963552764595,
+          0.49761866763246, 0.80373875180522,
+          0.29785779560554, -0.09921954357694,
+          -0.01260396726226, 0.03222310060407)
+
+WP <- WavPackMat(filt, N, k0 = 6)
+
+
