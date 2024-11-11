@@ -7,6 +7,7 @@
 # Load necessary libraries
 library(Matrix)
 library(ggplot2)
+library(imager)
 library(WaveletMatrixProject)
 
 
@@ -41,6 +42,9 @@ ggplot(data.frame(t = t, sig = sig), aes(x = t, y = sig)) +
 set.seed(1)
 signoi <- sig + 1/sqrt(SNR) * rnorm(N)
 
+# Convert and display the noisy signal as an image
+signoi_img <- as.cimg(matrix(signoi, nrow = 1, ncol = N))
+plot(signoi_img, main = "Noisy Signal Image Representation")
 
 
 # (iii) Plot the noisy signal
