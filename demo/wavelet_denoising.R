@@ -92,7 +92,8 @@ swt <- sign(sw) * pmax(abs(sw) - lambda, 0)
 
 
 # Convert and display the thresholded wavelet coefficients as an image
-swt_img <- as.cimg(matrix(swt, nrow = 1, ncol = N))
+swt_length <- length(swt)
+swt_img <- as.cimg(matrix(swt, nrow = 1, ncol = swt_length))
 plot(swt_img, main = "Thresholded Wavelet Coefficients Image Representation")
 
 # Plot the thresholded coefficients
@@ -104,11 +105,6 @@ ggplot(data.frame(index = 1:N, swt = swt), aes(x = index, y = swt)) +
 
 # (vii) Return the signal to the time domain using the inverse transformation
 a <- as.vector(t(WP) %*% swt)
-
-
-# Convert and display the denoised signal as an image
-a_img <- as.cimg(matrix(a, nrow = 1, ncol = N))
-plot(a_img, main = "Denoised Signal Image Representation")
 
 # (viii) Plot the denoised signal and the noisy signal for comparison
 ggplot(data.frame(t = t, signoi = signoi, a = a), aes(x = t)) +
