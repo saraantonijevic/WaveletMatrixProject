@@ -30,6 +30,13 @@ for (j in 1:length(pos)) {
 SNR <- 7
 sig <- sig * sqrt(SNR) / sd(sig)
 
+swt_length <- length(swt)
+
+# Convert and display the original signal as an image
+sig_img <- as.cimg(matrix(sig, nrow = 1, ncol = N))
+plot(sig_img, main = "Original Signal Image Representation")
+
+
 # Plot the original signal
 ggplot(data.frame(t = t, sig = sig), aes(x = t, y = sig)) +
   geom_line(color = "green", size = 1) +
@@ -43,7 +50,7 @@ set.seed(1)
 signoi <- sig + 1/sqrt(SNR) * rnorm(N)
 
 # Convert and display the noisy signal as an image
-signoi_img <- as.cimg(matrix(signoi, nrow = 1, ncol = N))
+signoi_img <- as.cimg(matrix(signoi, nrow = 1, ncol = swt_length))
 plot(signoi_img, main = "Noisy Signal Image Representation")
 
 
@@ -71,7 +78,7 @@ sw <- as.vector(WP %*% signoi)
 
 
 # Convert and display the wavelet coefficients as an image
-sw_img <- as.cimg(matrix(sw, nrow = 1, ncol = N))
+sw_img <- as.cimg(matrix(sw, nrow = 1, ncol = swt_length))
 plot(sw_img, main = "Wavelet Coefficients Image Representation")
 
 # Plot the wavelet coefficients
@@ -92,8 +99,7 @@ swt <- sign(sw) * pmax(abs(sw) - lambda, 0)
 
 
 # Convert and display the thresholded wavelet coefficients as an image
-swt_length <- length(swt)
-swt_img <- as.cimg(matrix(swt, nrow = 1, ncol = swt_length))
+swt_img <- as.cimg(matrix(swt, nrow = 1, nocl = swt_length))
 plot(swt_img, main = "Thresholded Wavelet Coefficients Image Representation")
 
 # Plot the thresholded coefficients
