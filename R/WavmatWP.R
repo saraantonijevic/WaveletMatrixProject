@@ -13,3 +13,40 @@
 #' @import ggplot2
 #' @import imager
 #' @import pracma
+WavPackMatWP <- function(h, N, k0, shift = 2) {
+  J <- log2(N)
+
+  # Make QM filter G
+  h <- as.vector(h) # Ensure h is a vector
+  g <- rev(Conj(h) * (-1)^(1:length(h)))
+
+  if (J != floor(J)) {
+    stop('N has to be a power of 2.')
+  }
+  h <- c(h, rep(0, N)) # Extend filter H by 0's to sample by modulus
+  g <- c(g, rep(0, N)) # Extend filter G by 0's to sample by modulus
+
+  WP <- matrix(nrow = 0, ncol = 0)
+  for (k in 1:k0) {
+    subW <- getsubWP(k, h, g, J, N)
+    WP <- rbind(WP, subW)
+  }
+
+  WP <- sqrt(1/k0) * WP
+
+  return(WP)
+}
+
+
+# Helper functions for WavPackMatWP
+getsubWP <- function(jstep, h, g, J, N) {
+  subW <- diag(2^(J - jstep))
+  for (k in jstep:1) {
+    hg_mats <- getHGmatWP(k, h, g, J, N)
+    hmat <- hg_mats[[1]]
+    gmat <- hg_mats[[2]]
+    subW <- rbind(subW %*% hmat, subW %*% gmat)
+  }
+  return(subW)
+}
+
