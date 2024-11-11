@@ -8,3 +8,11 @@
 library(Matrix)
 library(ggplot2)
 library(WaveletMatrixProject)
+
+
+# (i) Generate the "bumps" signal
+N <- 1024
+t <- seq(0, 1, length.out = N)
+pos <- c(0.1, 0.13, 0.15, 0.23, 0.25, 0.40, 0.44, 0.65, 0.76, 0.78, 0.81)
+hgt <- c(4, 5, 3, 4, 5, 4.2, 2.1, 4.3, 3.1, 5.1, 4.2)
+wth <- c(0.005, 0.005, 0.006, 0.01, 0.01, 0.03, 0.01, 0.01, 0.005, 0.008, 0.005)
