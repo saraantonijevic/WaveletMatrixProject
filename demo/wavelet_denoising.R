@@ -99,7 +99,7 @@ swt <- sign(sw) * pmax(abs(sw) - lambda, 0)
 
 
 # Convert and display the thresholded wavelet coefficients as an image
-swt_img <- as.cimg(matrix(swt, nrow = 1, nocl = swt_length))
+swt_img <- as.cimg(matrix(swt, nrow = 1, ncol = swt_length))
 plot(swt_img, main = "Thresholded Wavelet Coefficients Image Representation")
 
 # Plot the thresholded coefficients
