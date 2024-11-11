@@ -69,6 +69,11 @@ WP <- WavPackMat(filt, N, k0 = 6)
 # (v) Transform the signal using the wavelet packet matrix
 sw <- as.vector(WP %*% signoi)
 
+
+# Convert and display the wavelet coefficients as an image
+sw_img <- as.cimg(matrix(sw, nrow = 1, ncol = N))
+plot(sw_img, main = "Wavelet Coefficients Image Representation")
+
 # Plot the wavelet coefficients
 ggplot(data.frame(index = 1:N, sw = sw), aes(x = index, y = sw)) +
   geom_line(size = 1) +
@@ -85,6 +90,11 @@ lambda <- sqrt(2 * log(N)) * sigmahat
 # Apply soft thresholding
 swt <- sign(sw) * pmax(abs(sw) - lambda, 0)
 
+
+# Convert and display the thresholded wavelet coefficients as an image
+swt_img <- as.cimg(matrix(swt, nrow = 1, ncol = N))
+plot(swt_img, main = "Thresholded Wavelet Coefficients Image Representation")
+
 # Plot the thresholded coefficients
 ggplot(data.frame(index = 1:N, swt = swt), aes(x = index, y = swt)) +
   geom_line(size = 1) +
@@ -94,6 +104,11 @@ ggplot(data.frame(index = 1:N, swt = swt), aes(x = index, y = swt)) +
 
 # (vii) Return the signal to the time domain using the inverse transformation
 a <- as.vector(t(WP) %*% swt)
+
+
+# Convert and display the denoised signal as an image
+a_img <- as.cimg(matrix(a, nrow = 1, ncol = N))
+plot(a_img, main = "Denoised Signal Image Representation")
 
 # (viii) Plot the denoised signal and the noisy signal for comparison
 ggplot(data.frame(t = t, signoi = signoi, a = a), aes(x = t)) +
