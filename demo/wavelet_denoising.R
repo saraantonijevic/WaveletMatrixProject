@@ -35,3 +35,19 @@ ggplot(data.frame(t = t, sig = sig), aes(x = t, y = sig)) +
   theme_minimal(base_size = 16) +
   ggtitle("Original Bumps Signal")
 
+
+
+# (ii) Add noise to the signal
+set.seed(1)
+signoi <- sig + 1/sqrt(SNR) * rnorm(N)
+
+
+
+# (iii) Plot the noisy signal
+ggplot(data.frame(t = t, signoi = signoi, sig = sig), aes(x = t)) +
+  geom_point(aes(y = signoi), color = "red", size = 2) +
+  geom_line(aes(y = sig), color = "green", size = 1) +
+  theme_minimal(base_size = 16) +
+  ggtitle("Noisy Bumps Signal")
+
+
