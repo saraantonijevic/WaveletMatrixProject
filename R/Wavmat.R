@@ -10,6 +10,9 @@
 #' @return A sparse matrix representing the wavelet packet transformation.
 #' @export
 #' @importFrom Matrix rBind
+#' @import ggplot2
+#' @import imager
+#' @import pracma
 WavPackMat <- function(h, N, k0, shift = 2) {
   J <- log2(N)
   if (J != floor(J)) {
