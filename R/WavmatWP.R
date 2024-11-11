@@ -50,3 +50,28 @@ getsubWP <- function(jstep, h, g, J, N) {
   return(subW)
 }
 
+
+
+getHGmatWP <- function(k, h, g, J, N) {
+  ubJk <- 2^(J - k)
+  ubJk1 <- 2^(J - k + 1)
+  shift <- 2
+
+  hmat <- matrix(0, nrow = ubJk1, ncol = ubJk)
+  gmat <- matrix(0, nrow = ubJk1, ncol = ubJk)
+
+  for (jj in 1:ubJk) {
+    for (ii in 1:ubJk1) {
+      modulus <- (N + ii - 2 * jj + shift) %% ubJk1
+      modulus <- modulus + (modulus == 0) * ubJk1
+      hmat[ii, jj] <- h[modulus + 1] # R is 1-indexed
+      gmat[ii, jj] <- g[modulus + 1] # R is 1-indexed
+    }
+  }
+
+  hmat <- t(hmat)
+  gmat <- t(gmat)
+
+  return(list(hmat, gmat))
+}
+
