@@ -24,3 +24,14 @@ for (j in 1:length(pos)) {
 }
 
 
+
+# Standardize the signal for a fixed SNR
+SNR <- 7
+sig <- sig * sqrt(SNR) / sd(sig)
+
+# Plot the original signal
+ggplot(data.frame(t = t, sig = sig), aes(x = t, y = sig)) +
+  geom_line(color = "green", size = 1) +
+  theme_minimal(base_size = 16) +
+  ggtitle("Original Bumps Signal")
+
