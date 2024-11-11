@@ -71,3 +71,20 @@ ggplot(data.frame(index = 1:N, sw = sw), aes(x = index, y = sw)) +
   theme_minimal(base_size = 16) +
   ggtitle("Wavelet Coefficients")
 
+
+
+# (vi) Threshold the small coefficients
+finest <- sw[(N/2+1):N]
+sigmahat <- sd(finest)
+lambda <- sqrt(2 * log(N)) * sigmahat
+
+# Apply soft thresholding
+swt <- sign(sw) * pmax(abs(sw) - lambda, 0)
+
+# Plot the thresholded coefficients
+ggplot(data.frame(index = 1:N, swt = swt), aes(x = index, y = swt)) +
+  geom_line(size = 1) +
+  theme_minimal(base_size = 16) +
+  ggtitle("Thresholded Wavelet Coefficients")
+
+
