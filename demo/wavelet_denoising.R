@@ -61,3 +61,13 @@ filt <- c(-0.07576571478934, -0.02963552764595,
 WP <- WavPackMat(filt, N, k0 = 6)
 
 
+
+# (v) Transform the signal using the wavelet packet matrix
+sw <- as.vector(WP %*% signoi)
+
+# Plot the wavelet coefficients
+ggplot(data.frame(index = 1:N, sw = sw), aes(x = index, y = sw)) +
+  geom_line(size = 1) +
+  theme_minimal(base_size = 16) +
+  ggtitle("Wavelet Coefficients")
+
