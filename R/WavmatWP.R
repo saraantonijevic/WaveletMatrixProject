@@ -12,7 +12,8 @@
 #' @importFrom Matrix rBind
 #' @import ggplot2
 #' @import imager
-#' @import pracma
+#' @import pracma hypot
+#' @import Rmpfr mpfr sqrt
 WavPackMatWP <- function(h, N, k0, shift = 2) {
   J <- log2(N)
 
@@ -26,9 +27,15 @@ WavPackMatWP <- function(h, N, k0, shift = 2) {
   h <- c(h, rep(0, N)) # Extend filter H by 0's to sample by modulus
   g <- c(g, rep(0, N)) # Extend filter G by 0's to sample by modulus
 
-  WP <- matrix(nrow = 0, ncol = 0)
+  # Initialize WP with the number of columns expected from subW
+  subW <- getsubWP(1, h, g, J, N)  # Use the first level to check dimensions
+  WP <- matrix(nrow = 0, ncol = ncol(subW))
+
   for (k in 1:k0) {
     subW <- getsubWP(k, h, g, J, N)
+    if (ncol(WP) != ncol(subW)) {
+      stop("Column mismatch between WP and subW during rbind operation.")
+    }
     WP <- rbind(WP, subW)
   }
 
@@ -74,4 +81,3 @@ getHGmatWP <- function(k, h, g, J, N) {
 
   return(list(hmat, gmat))
 }
-
