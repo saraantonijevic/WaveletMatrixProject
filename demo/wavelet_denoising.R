@@ -88,3 +88,12 @@ ggplot(data.frame(index = 1:N, swt = swt), aes(x = index, y = swt)) +
   ggtitle("Thresholded Wavelet Coefficients")
 
 
+# (vii) Return the signal to the time domain using the inverse transformation
+a <- as.vector(t(WP) %*% swt)
+
+# (viii) Plot the denoised signal and the noisy signal for comparison
+ggplot(data.frame(t = t, signoi = signoi, a = a), aes(x = t)) +
+  geom_point(aes(y = signoi), color = "red", size = 2) +
+  geom_line(aes(y = a), color = "black", size = 1) +
+  theme_minimal(base_size = 16) +
+  ggtitle("Denoised Signal")
