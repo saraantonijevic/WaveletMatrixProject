@@ -1,28 +1,39 @@
-cat('Doppler Wavelet Packets Forward and Inverse (Demo 1 of WavMatPackWP)\n')
 
+library(WaveletMatrixProject)
 
-lw <- 1.0
-par(cex.axis = 1.6)
-fs <- 15
-msize <- 10
-
-nl <- 10      # J level, V_J
-n <- 2^nl    #
-level <- 5   # levels of decomposition
-shift <- 3   # standard shift
-
-filt <- c(sqrt(2)/2, sqrt(2)/2)
-
-
-# SYMMLET 4
+# Define the filter (e.g., SYMMLET 4)
 filt <- c(-0.07576571478934, -0.02963552764595,
           0.49761866763246, 0.80373875180522,
           0.29785779560554, -0.09921954357694,
           -0.01260396726226, 0.03222310060407)
+# Print to verify
+print(filt)
 
-WP <- WavmatWP(filt, n, level, shift) # size: [level*n, n]
 
+# Set parameters for the wavelet packet transformation matrix
+N <- 8  # Size of the matrix
+k0 <- 3  # Levels of decomposition
+shift <- 0  # Shift parameter
 
-cat("Trace of WP * WP':", sum(diag(WP %*% t(WP))), "\n")  # should be n. level*n entries on the diagonal of size 1/level.
-cat("Trace of WP' * WP:", sum(diag(t(WP) %*% WP)), "\n")  # should be n. n entries of 1 each.
+# Generate the wavelet packet transformation matrix
+WP <- WavPackMatWP(filt, N, k0, shift)
+
+# Print the matrix
+print(WP)
+
+# Example of applying this to a vector y
+y <- c(1, 0, -3, 2, 1, 0, 1, 2)
+d <- sqrt(k0) * WP %*% y
+yy <- (1 / sqrt(k0)) * t(WP) %*% d
+
+# Print the transformed and inverse-transformed vectors
+print("d vector:")
+print(d)
+print("yy (inverse result):")
+print(yy)
+
+trace1 <- sum(diag(WP %*% t(WP)))
+trace2 <- sum(diag(t(WP) %*% WP))
+cat("Trace of WP * WP':", trace1, "\n")
+cat("Trace of WP' * WP:", trace2, "\n")
 
