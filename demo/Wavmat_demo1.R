@@ -1,8 +1,7 @@
 # Load necessary functions and data from the package
-library(imager)
-library(Matrix)
 library(WaveletMatrixProject)
-library(pracma)
+source("C:/Users/saraa/Desktop/WaveletMatrixProject/demo/load_demo_libraries.R")
+
 
 
 cat("Demo6c: Lenna 2d scale-mixing forth and back\n")
