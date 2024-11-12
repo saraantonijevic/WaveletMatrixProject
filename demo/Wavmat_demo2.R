@@ -6,8 +6,6 @@
 
 # Load necessary libraries
 library(WaveletMatrixProject)
-source("C:/Users/saraa/Desktop/WaveletMatrixProject/demo/load_demo_libraries.R")
-
 
 # (i) Generate the "bumps" signal
 N <- 1024
@@ -30,10 +28,10 @@ sig <- sig * sqrt(SNR) / sd(sig)
 
 
 # Plot the original signal
-ggplot(data.frame(t = t, sig = sig), aes(x = t, y = sig)) +
-  geom_line(color = "green", size = 1) +
-  theme_minimal(base_size = 16) +
-  ggtitle("Original Bumps Signal")
+ggplot2::ggplot(data.frame(t = t, sig = sig), ggplot2::aes(x = t, y = sig)) +
+  ggplot2::geom_line(color = "green", size = 1) +
+  ggplot2::theme_minimal(base_size = 16) +
+  ggplot2::ggtitle("Original Bumps Signal")
 
 
 
@@ -43,11 +41,11 @@ signoi <- sig + 1/sqrt(SNR) * rnorm(N)
 
 
 # (iii) Plot the noisy signal
-ggplot(data.frame(t = t, signoi = signoi, sig = sig), aes(x = t)) +
-  geom_point(aes(y = signoi), color = "red", size = 2) +
-  geom_line(aes(y = sig), color = "green", size = 1) +
-  theme_minimal(base_size = 16) +
-  ggtitle("Noisy Bumps Signal")
+ggplot2::ggplot(data.frame(t = t, signoi = signoi, sig = sig), ggplot2::aes(x = t)) +
+  ggplot2::geom_point(ggplot2::aes(y = signoi), color = "red", size = 2) +
+  ggplot2::geom_line(ggplot2::aes(y = sig), color = "green", size = 1) +
+  ggplot2::theme_minimal(base_size = 16) +
+  ggplot2::ggtitle("Noisy Bumps Signal")
 
 
 
@@ -67,10 +65,10 @@ sw <- as.vector(WP %*% signoi)
 
 
 # Plot the wavelet coefficients
-ggplot(data.frame(index = 1:N, sw = sw), aes(x = index, y = sw)) +
-  geom_line(size = 1) +
-  theme_minimal(base_size = 16) +
-  ggtitle("Wavelet Coefficients")
+ggplot2::ggplot(data.frame(index = 1:N, sw = sw), ggplot2::aes(x = index, y = sw)) +
+  ggplot2::geom_line(size = 1) +
+  ggplot2::theme_minimal(base_size = 16) +
+  ggplot2::ggtitle("Wavelet Coefficients")
 
 
 
@@ -84,22 +82,22 @@ swt <- sign(sw) * pmax(abs(sw) - lambda, 0)
 swt_length <- length(swt)
 
 # Convert and display the thresholded wavelet coefficients as an image
-swt_img <- as.cimg(matrix(swt, nrow = 1, ncol = swt_length))
+swt_img <- imager::as.cimg(matrix(swt, nrow = 1, ncol = swt_length))
 plot(swt_img, main = "Thresholded Wavelet Coefficients Image Representation")
 
 # Plot the thresholded coefficients
-ggplot(data.frame(index = 1:N, swt = swt), aes(x = index, y = swt)) +
-  geom_line(size = 1) +
-  theme_minimal(base_size = 16) +
-  ggtitle("Thresholded Wavelet Coefficients")
+ggplot2::ggplot(data.frame(index = 1:N, swt = swt), ggplot2::aes(x = index, y = swt)) +
+  ggplot2::geom_line(size = 1) +
+  ggplot2::theme_minimal(base_size = 16) +
+  ggplot2::ggtitle("Thresholded Wavelet Coefficients")
 
 
 # (vii) Return the signal to the time domain using the inverse transformation
 a <- as.vector(t(WP) %*% swt)
 
 # (viii) Plot the denoised signal and the noisy signal for comparison
-ggplot(data.frame(t = t, signoi = signoi, a = a), aes(x = t)) +
-  geom_point(aes(y = signoi), color = "red", size = 2) +
-  geom_line(aes(y = a), color = "black", size = 1) +
-  theme_minimal(base_size = 16) +
-  ggtitle("Denoised Signal")
+ggplot2::ggplot(data.frame(t = t, signoi = signoi, a = a), ggplot2::aes(x = t)) +
+  ggplot2::geom_point(ggplot2::aes(y = signoi), color = "red", size = 2) +
+  ggplot2::geom_line(ggplot2::aes(y = a), color = "black", size = 1) +
+  ggplot2::theme_minimal(base_size = 16) +
+  ggplot2::ggtitle("Denoised Signal")
