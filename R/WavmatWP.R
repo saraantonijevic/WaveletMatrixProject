@@ -1,8 +1,5 @@
 #' Construct Wavelet Packet Transformation Matrix
 #'
-#' This function creates a wavelet packet transformation matrix for high-quality filter coefficients.
-#' It uses orthogonal wavelet transformation to construct the matrix.
-#'
 #' @param h Numeric vector representing the low-pass filter.
 #' @param N Integer specifying the size of the matrix. Must be a power of 2.
 #' @param k0 Integer specifying the depth of the wavelet transformation. Should be between 1 and log2(N).
@@ -10,10 +7,8 @@
 #' @return A matrix representing the wavelet packet transformation.
 #' @export
 #' @importFrom Matrix rBind
-#' @import ggplot2
-#' @import imager
-#' @import pracma hypot
-#' @import Rmpfr mpfr sqrt
+#' @import pracma
+#' @import wavelets
 WavPackMatWP <- function(h, N, k0, shift = 2) {
   J <- log2(N)
 
@@ -45,23 +40,18 @@ WavPackMatWP <- function(h, N, k0, shift = 2) {
 }
 
 
-# Helper functions for WavPackMatWP
 getsubWP <- function(jstep, h, g, J, N) {
-  subW <- diag(2^(J - jstep))
+  subW <- diag(2^(J-jstep))
   for (k in jstep:1) {
-    hg_mats <- getHGmatWP(k, h, g, J, N)
-    hmat <- hg_mats[[1]]
-    gmat <- hg_mats[[2]]
-    subW <- rbind(subW %*% hmat, subW %*% gmat)
+    hgmat <- getHGmatWP(k, h, g, J, N)
+    subW <- rbind(subW %*% hgmat$hmat, subW %*% hgmat$gmat)
   }
   return(subW)
 }
 
-
-
 getHGmatWP <- function(k, h, g, J, N) {
-  ubJk <- 2^(J - k)
-  ubJk1 <- 2^(J - k + 1)
+  ubJk <- 2^(J-k)
+  ubJk1 <- 2^(J-k+1)
   shift <- 2
 
   hmat <- matrix(0, nrow = ubJk1, ncol = ubJk)
@@ -71,13 +61,10 @@ getHGmatWP <- function(k, h, g, J, N) {
     for (ii in 1:ubJk1) {
       modulus <- (N + ii - 2 * jj + shift) %% ubJk1
       modulus <- modulus + (modulus == 0) * ubJk1
-      hmat[ii, jj] <- h[modulus + 1] # R is 1-indexed
-      gmat[ii, jj] <- g[modulus + 1] # R is 1-indexed
+      hmat[ii, jj] <- h[modulus]
+      gmat[ii, jj] <- g[modulus]
     }
   }
 
-  hmat <- t(hmat)
-  gmat <- t(gmat)
-
-  return(list(hmat, gmat))
+  return(list(hmat = t(hmat), gmat = t(gmat)))
 }
