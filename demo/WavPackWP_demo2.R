@@ -1,8 +1,7 @@
 library(WaveletMatrixProject)
+# WavPackWP_demo2.R
+# This demo script showcases the forward and inverse wavelet packet transformation applied to a Doppler signal.
 
-
-# Demo Code
-cat('Dem12d: Doppler Wavelet Packets Forward and Inverse\n')
 
 nl <- 11      # J level, V_J
 n <- 2^nl     # Signal length
