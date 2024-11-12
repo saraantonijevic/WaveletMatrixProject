@@ -26,6 +26,7 @@ print(WP)
 
 # Example of applying this to a vector y
 y <- c(1, 0, -3, 2, 1, 0, 1, 2)
+
 d <- sqrt(k0) * WP %*% y
 yy <- (1 / sqrt(k0)) * t(WP) %*% d
 
