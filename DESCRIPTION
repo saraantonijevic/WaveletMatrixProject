@@ -14,5 +14,5 @@ Imports:
     pracma,
     ggplot2,
     imager,
-    Rmpfr
+    wavelets
 LazyData: true
