@@ -13,5 +13,6 @@ Imports:
     Matrix,
     pracma,
     ggplot2,
-    imager
+    imager,
+    Rmpfr
 LazyData: true
