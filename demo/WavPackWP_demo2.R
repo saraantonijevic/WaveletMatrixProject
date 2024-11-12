@@ -1,5 +1,4 @@
 library(WaveletMatrixProject)
-source("C:/Users/saraa/Desktop/WaveletMatrixProject/demo/load_demo_libraries.R")
 # This demo script showcases the forward and inverse wavelet packet transformation applied to a Doppler signal.
 
 
