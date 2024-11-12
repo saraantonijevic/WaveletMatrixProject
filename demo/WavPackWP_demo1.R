@@ -1,4 +1,5 @@
 library(WaveletMatrixProject)
+source("C:/Users/saraa/Desktop/WaveletMatrixProject/demo/load_demo_libraries.R")
 # WavPackWP_demo1.R
 # This demo script demonstrates the construction of a wavelet packet transformation matrix
 # and its application to a sample vector.
