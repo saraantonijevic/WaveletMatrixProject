@@ -4,3 +4,4 @@ lena_demo           A demo showcasing Lena image processing with wavelet transfo
 wavelet_denoising    Demo showcasing wavelet denoising of a synthetic "bumps" signal using the WaveletMatrixProject.
 WavPackWP_demo1  Demonstrates the construction and application of a wavelet packet transformation matrix.
 WavPackWP_demo2  Demonstrates forward and inverse wavelet packet transformation on a Doppler signal.
+load_demo_libraries Utility script to load all required libraries for demo scripts.
