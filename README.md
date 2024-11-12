@@ -8,10 +8,13 @@
 
 ## Installation
 
-You can install the development version of WaveletMatrixProject from [GitHub](https://github.com/) with:
+You can install the development version of WaveletMatrixProject from [GitHub](https://github.com/saraantonijevic/WaveletMatrixProject) with:
 
-``` r
-# install.packages("pak")
+```r
+# Install pak if not already installed
+install.packages("pak")
+
+# Install the WaveletMatrixProject package
 pak::pak("saraantonijevic/WaveletMatrixProject")
 ```
 
