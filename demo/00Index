@@ -2,3 +2,5 @@ test2lena           Test script for Lena image processing.
 wavpack_lena_demo   Demonstrates wavelet transformations on the Lena image.
 lena_demo           A demo showcasing Lena image processing with wavelet transformations.
 wavelet_denoising    Demo showcasing wavelet denoising of a synthetic "bumps" signal using the WaveletMatrixProject.
+WavPackWP_demo1  Demonstrates the construction and application of a wavelet packet transformation matrix.
+WavPackWP_demo2  Demonstrates forward and inverse wavelet packet transformation on a Doppler signal.
