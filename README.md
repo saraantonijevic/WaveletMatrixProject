@@ -6,6 +6,9 @@
 
 **WaveletMatrixProject** is an R package designed for constructing and applying highly optimized orthogonal wavelet transformation matrices for signal processing tasks. The package supports wavelet packet transformations, signal decomposition, denoising, and reconstruction, making it suitable for both synthetic and real data analysis.
 
+
+Some further things left to complete in the project is to implement the function WavmatND.R and generate more demos for each function. The goal is depict how the functions operate under different functions and signals.
+
 ## Installation
 
 You can install the development version of WaveletMatrixProject from [GitHub](https://github.com/saraantonijevic/WaveletMatrixProject), follow the steps below:
