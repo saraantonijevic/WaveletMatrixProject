@@ -2,7 +2,7 @@ Package: WaveletMatrixProject
 Title: Orthogonal Discrete Wavelet Transformation with Matrix Representations
 Version: 0.1.0
 Authors@R: person("Sara", "Antonijevic", email = "saraant@tamu.edu", role = c("aut", "cre"), comment = c(ORCID = "0009-0006-0142-8860"))
-Description: Provides orthogonal discrete wavelet transformations using matrix representations for efficient computation in R.
+Description: The WaveletMatrixProject package provides tools for performing orthogonal discrete wavelet transformations using matrix representations. It supports forward and inverse wavelet packet transformations, wavelet denoising of signals, and includes visualization utilities for signal analysis. This package is suitable for efficient computational wavelet operations in R, making it ideal for signal processing, data denoising, and related applications.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
