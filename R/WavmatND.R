@@ -65,6 +65,10 @@ WavmatND <- function(hf, N, k, shift) {
 #' dilated_filt <- dilate_filter(filt, 2)
 #' @export
 dilate_filter <- function(filt, k) {
+  if (length(filt) == 0) {
+    return(numeric(0))
+  }
+
   newlength <- (k + 1) * length(filt) - k
   filtd <- rep(0, newlength)
   filtd[seq(1, newlength, by = k + 1)] <- filt
