@@ -4,6 +4,5 @@ Wavmat_demo1           A demo showcasing Lena image processing with wavelet tran
 Wavmat_demo2    Demo showcasing wavelet denoising of a synthetic "bumps" signal using the WaveletMatrixProject.
 WavPackWP_demo1  Demonstrates the construction and application of a wavelet packet transformation matrix.
 WavPackWP_demo2  Demonstrates forward and inverse wavelet packet transformation on a Doppler signal.
-load_demo_libraries Utility script to load all required libraries for demo scripts.
 WavmatND_demo1     Example demonstrating the use of WavmatND function.
 WavmatND_demo2     Example demonstrating the use of WavmatND function.Doppler signal de-noising using hard-thresholding
