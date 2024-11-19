@@ -1,3 +1,5 @@
+library(WaveletMatrixProject)
+
 n <- 1000  # signal size setting
 J <- floor(log2(n))  # level where the signal resides
 k <- 4 # number of steps in ND transformation
