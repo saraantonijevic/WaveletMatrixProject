@@ -2,6 +2,7 @@
 
 export(WavPackMat)
 export(WavPackMatWP)
+export(WavmatND)
 import(ggplot2)
 import(imager)
 import(pracma)
