@@ -44,11 +44,12 @@
 #' repeated_a <- repeating(a, 3)
 #'
 #' @export
-#' @importFrom Matrix rBind
+#' @importFrom Matrix rBind, Diagonal
 #' @import ggplot2
 #' @import imager
 #' @import pracma
-#' @import wavelets
+#' @import ggplot2
+#' @import gridExtra
 WavmatND <- function(hf, N, k, shift) {
   gf <- rev(Conj(hf) * (-1)^(1:length(hf)))
   W <- matrix(nrow = 0, ncol = N)
