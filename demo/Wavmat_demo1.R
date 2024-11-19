@@ -1,10 +1,6 @@
 # Load necessary functions and data from the package
 library(WaveletMatrixProject)
 
-
-
-cat("Demo6c: Lenna 2d scale-mixing forth and back\n")
-
 # Define Symmlet 4 wavelet filter from wavelets package
 h <- c(-0.075765714789341, -0.029635527645954, 0.497618667632458,
        0.803738751805216, 0.297857795605542, -0.099219543576935,
