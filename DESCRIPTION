@@ -14,5 +14,10 @@ Imports:
     pracma,
     ggplot2,
     imager,
-    wavelets
+    wavelets,
+    gridExtra
+VignetteBuilder: knitr
+Suggests:
+    knitr,
+    rmarkdown
 LazyData: true
