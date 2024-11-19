@@ -56,6 +56,10 @@ plot(sw, type = "l", lwd = 2, main = "Wavelet Packet Coefficients", xlab = "Inde
 
 ```
 
+## Vignette
+For a detailed overview and examples, check out the [WaveletMatrixOverview vignette](vignettes/WaveletMatrixOverview.md).
+
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for more details.
