@@ -13,6 +13,23 @@
 #' @import ggplot2
 #' @import imager
 #' @import pracma
+#' @examples
+#' #'
+#' # Define the low-pass filter (Haar wavelet coefficients)
+#' h <- c(1 / sqrt(2), 1 / sqrt(2))
+#'
+#' # Specify the size of the transformation matrix (power of 2)
+#' N <- 8
+#'
+#' # Set the depth of wavelet decomposition
+#' k0 <- 3
+#'
+#' # Generate the wavelet packet transformation matrix
+#' WP <- WavPackMat(h, N, k0)
+#'
+#' # Print the resulting matrix
+#' print(WP)
+#'
 WavPackMat <- function(h, N, k0, shift = 2) {
   # Determine the total number of decomposition levels (J) based on N
   J <- log2(N)
