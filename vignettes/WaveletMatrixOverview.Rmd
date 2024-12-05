@@ -68,95 +68,123 @@ shift <- 1  # Filter shift
 W <- WavmatND(hf, N, k, shift)
 print(W)
 
+# Visualizing the wavelet matrix
 image(W, main = "Wavelet Matrix (WavmatND)", xlab = "Columns", ylab = "Rows", col = heat.colors(256))
 ```
 **Explanation**: The WavmatND() function starts with an identity matrix and applies a high-pass filter to construct the wavelet matrix. This matrix can be used for signal processing tasks where transformations are needed to capture specific frequency components in signals.
 
-**Output**: The output is a matrix where each row represents the high-frequency components at a specific scale.
+**Suporting Functions**: 
+- dilate_filter():  Dilates the filter coefficients for higher decomposition levels.
+- imbed(): Embeds a vector by appending zeros.
+- repeating(): Creates repeated sequences from input vectors.
 
-For a more detailed demonstration, please see WavmatND_demo1 and WavmatND_demo2 in the demos folder.
+For a more detailed demonstration, see WavmatND_demo1 and WavmatND_demo2 in the demo folder.
 
 
-
-## 5. `WavPackMatWP()`
+## 2. `WavPackMatWP()`
 **Description**: Constructs a wavelet packet transformation matrix using a low-pass filter. This matrix represents a transformation that decomposes signals into components at different levels of detail.
+
+Key Arguments:
+- h: Numeric vector representing the low-pass filter.
+- N: Integer specifying the size of the matrix (must be a power of 2).
+- k0: Integer specifying the depth of the wavelet transformation.
+- shift: Integer for shifts in the wavelet transformation (default is 2).
 
 ### Example
 ```{r WavPackMatWP-example}
 # Low-pass filter
-h <- c(0.5, 0.5)
-N <- 8
-k0 <- 2
-shift <- 2
+h <- c(0.5, 0.5) #Low-pass filer
+N <- 8 #Signal size (must be a power of 2, 2^3 in this case)
+k0 <- 2 #Depth of decomposition
+shift <- 2 #Shift parameter
 
 # Construct the wavelet packet matrix
 WP <- WavPackMatWP(h, N, k0, shift)
 print(WP)
+
+
+# Visualizing the wavelet packet matrix
+image(WP, main = "Wavelet Packet Matrix (WavPackMatWP)", xlab = "Columns", ylab = "Rows", col = heat.colors(256))
 ```
 
 **Explanation**: WavPackMatWP() builds a matrix for wavelet packet transformation up to a depth k0. It uses the low-pass filter (h) to decompose the signal and create a matrix that captures different levels of detail. This function is essential for performing multi-resolution analysis.
 
+**Supporting Functions:**
+**getsubWP():** This function constructs sub-matrices for the wavelet packet transformation at each decomposition level. It iteratively applies low-pass (H) and high-pass (G) filters which generate sub-matrices that represent transformations at different decomposition levels.
+
+**Key Components of getsubWP():**
+- Iterative construction: getsubWP() builds sub-matrices by applying filters at each level in reverse order.
+-Filter applications: Combines H and G matrices in order to decompose the signal at its current level. 
+- Arguments in getsubWP():
+  - jstep: Current decomposition level.
+  - h: Low-pass filter.
+  - g: Hgh-pass filter.
+  - J: Maximum number of decomposition levels.
+  - N: Size of signal/matrix
+
+**getHGmatWP():** This function computes matrices using the input filters (H and G), adjusting their elements with a modulus operation to handle boundary conditions. This helps ensure that the transformation correctly wraps around indices when applying the filters.
+
+**Key Components of getHGmatWP():**
+- Arguments in getHGmatWP():
+  - k: Current decomposition level.
+  - h: Low-pass filter.
+  - g: Hgh-pass filter.
+  - J: Maximum number of decomposition levels.
+  - N: Size of signal/matrix
+
+For a more detailed demonstration, see WavmatND_demo1 and WavmatND_demo2 in the demo folder.
 
 
-## 6. `getsubWP()`
-**Description**: Constructs sub-matrices for wavelet packet transformation at each level of decomposition. This function is used internally by WavPackMatWP().
-
-### Example
-This function is an essential part of WavPackMatWP() to iteratively create sub-matrices for each decomposition level.
-
-**Explanation**: getsubWP() generates sub-matrices that represent transformations at different decomposition levels. It iterates backward through the levels, applying filter matrices to create detailed sub-matrices that contribute to the overall transformation matrix.
-
-
-
-## 7. `getHGmatWP()`
-**Description**: Constructs the H and G matrices for wavelet packet transformation, applying circular boundary conditions. This function is used internally by WavPackMatWP().
-
-### Example
-This function supports WavPackMatWP() by creating the necessary H and G filter matrices during matrix construction.
-
-**Explanation**: getHGmatWP() computes matrices using the input filters (h and g), adjusting their elements with a modulus operation to handle boundary conditions. This ensures that the transformation correctly wraps around indices when applying the filters, which is critical in wavelet packet analysis.
-
-
-
-## 8. `WavPackMat()`
-**Description**: Constructs an optimized orthogonal wavelet transformation matrix using a low-pass filter. This matrix is used for efficient wavelet-based signal processing.
+## 3. `WavPackMat()`
+**Description**: This function constructs an optimized orthogonal wavelet transformation matrix using a low-pass filter. This matrix is used for efficient wavelet-based signal processing.
 
 ### Example
 ```{r WavPackMat-example}
 # Low-pass filter
 h <- c(0.5, 0.5)
-N <- 8
-k0 <- 3
-shift <- 2
+
+# Parameters for wavelet transformation matrix
+N <- 8 #Matrix size (2^3 in this case)
+k0 <- 3 #Depth of wavelet decomposition
+shift <- 2 #Shift parameter
 
 # Construct the wavelet transformation matrix
 WP_opt <- WavPackMat(h, N, k0, shift)
 print(WP_opt)
+
+# Visualize the matrix
+image(WP_opt, main = "Wavelet Transformation Matrix", xlab = "Columns", ylab = "Rows", col = heat.colors(256))
+
 ```
 
-**Explanation**: WavPackMat() builds an orthogonal wavelet transformation matrix optimized for computational efficiency. This matrix is essential for analyzing signals with high precision and low computational cost, making it suitable for large-scale data processing.
+**Explanation**: WavPackMat() uses the low-pass filter (h) to create an orthogonal matrix for efficient decomposition and reconstruction.
 
 
+**Supporting Functions:**
+**getsubW():** Constructs sub-matrices for the wavelet transformation at each level. It applies the H and G matrices at each iteration to create sub-matrices for each decomposition level, which is essential for building the wavelet matrix used for signal decomposition.
 
-## 9. `getsubW()`
-**Description**: Constructs sub-matrices for the wavelet transformation at each level. This function is used internally by WavPackMat().
+**Key Components of getsubW():**
+- Arguments in getsubW():
+  - jstep: Current decomposition level.
+  - h: Low-pass filter.
+  - g: Hgh-pass filter.
+  - J: Maximum number of decomposition levels.
+  - N: Size of matrix.
 
-### Example
-The function getsubW() is called within WavPackMat() to build sub-matrices as part of the overall wavelet matrix construction process.
+**getHGmat():** This function creates H and G matrices that are critical for constructing wavelet transformations with circular boundary conditions. The matrices ensure that the input signal is properly processed even when indices wrap around.
 
-**Explanation**: This function iteratively applies the H and G matrices to create sub-matrices for each decomposition level, essential for building the wavelet matrix that is used for signal decomposition.
-
-
-## 10. `getHGmat()`
-**Description**: Constructs sub-matrices for the wavelet transformation at each level. This function is used internally by WavPackMat().
-
-### Example
-getHGmat() is used by getsubW() to build H and G matrices for each level of decomposition during wavelet matrix construction.
-
-**Explanation**: getHGmat() creates H and G matrices that are critical for constructing wavelet transformations with circular boundary conditions. These matrices ensure that the input signal is properly processed even when indices wrap around.
+**Key Components of getsubW():**
+Matrix Construction: Create the H and G matrices by applying the low-pass (h) and high-pass (g) filters.
+Boundary Handling: Use modulus operations to wrap around indices. This ensures that the matrix respects circular boundary conditions.
+- Arguments in getsubW():
+  - k: Current decomposition level.
+  - h: Low-pass filter.
+  - g: Hgh-pass filter.
+  - J: Maximum number of decomposition levels.
+  - N: Size of matrix.
 
 
-
+For a more detailed demonstration, see Wavmat_demo1 and Wavmat_demo2 in the demo folder.
 
 
 
