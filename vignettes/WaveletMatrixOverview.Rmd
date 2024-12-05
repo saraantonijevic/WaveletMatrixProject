@@ -76,64 +76,6 @@ image(W, main = "Wavelet Matrix (WavmatND)", xlab = "Columns", ylab = "Rows", co
 
 For a more detailed demonstration, please see WavmatND_demo1 and WavmatND_demo2 in the demos folder.
 
-## 2. `dilate_filter()`
-**Description**: This function dilates a filter by inserting zeros between its elements. This increases the filter's length without altering the original coefficients. This technique is commonly used in multi-resolution wavelet transformations, where filters which have varying lengths are required at different scales.
-
-Key arguments:
-
--filt: This is a numeric vector which represents the original filter coefficients.
--step: This signifies the amount of zeros needed to inserted between each element.
-
-### Example
-```{r dilate_filter-example}
-# Define a filter
-filt <- c(0.5, -0.5)
-
-# Dilate the filter with a step size of 2
-dilated_filt <- dilate_filter(filt, 2)
-print(dilated_filt)
-```
-
-**Explanation**: dilate_filter() takes an input vector and places zeros between its elements. This adjusts filter lengths in wavelet processing, where filters of specific lengths are required for different transformation levels.
-
-Output: A vector where zeros are interspersed between the original filter coefficients.
-
-Use Case: Used in conjunction with wavelet matrix construction to adapt filters for transformations across multiple levels.
-
-
-
-## 3. `imbed()`
-**Description**:  Embeds a vector by appending zeros to double its length. This operation is typically used in preparation for transformations that require vectors of greater length. construction.
-
-### Example
-```{r imbed-example}
-# Original vector
-a <- c(1, 2, 3)
-
-# Embed the vector
-imbedded_a <- imbed(a)
-print(imbedded_a)
-```
-
-**Explanation**: imbed() increases the length of a vector by appending zeros, which can be required for padding in signal processing or when preparing data for further multi-resolution analysis.
-
-
-
-## 4. `repeating()`
-**Description**:  Repeats the input vector a specified number of times, creating a longer vector by replication. This is useful in creating extended signals or patterns.
-
-### Example
-```{r repeating-example}
-# Original vector
-a <- c(1, 2)
-
-# Repeat the vector 3 times
-repeated_a <- repeating(a, 3)
-print(repeated_a)
-```
-
-**Explanation**: The repeating() function replicates the input vector n times, extending its length. This is beneficial in scenarios where repeated patterns of a signal are required for signal synthesis or analysis.
-
 
 
 ## 5. `WavPackMatWP()`
