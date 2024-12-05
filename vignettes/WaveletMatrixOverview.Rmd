@@ -10,7 +10,9 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5
 )
 ```
 
@@ -19,28 +21,68 @@ library(WaveletMatrixProject)
 ```
 
 # Introduction
-This vignette provides a comprehensive overview of the functions available in the `WaveletMatrixProject` package. Each function is described in detail, with examples demonstrating their usage. These functions support the construction of wavelet and wavelet packet transformation matrices, useful for signal processing and data analysis.
+
+The `WaveletMatrixProject` is a comprehensive package for the construction and manipulation of wavelets and wavelet transformation matrices. These tools are essential for signal processing tasks, such as:
+
+- Decomposing signals into multiple resolutions.
+- Analyzing frequency components across different scales.
+- Enhancing feature extraction and reconstructring signals from wavelet transformations.
+
+This vignette serves as a guide to the package, composing of:
+
+- **Detailed Core-Function Descriptions**: Clear explanations of each function's purpose and role in signal processing.
+- **Code Examples**: Step-by-step demonstrations to help you understand usage.
+- **Visual Outputs**: Graphs and plots to illustrate the effects of transformations.
+
+By the end of this vignette, you will be able to:
+
+- Construct wavelets and wavelet packet matrices using the functions.
+- Apply advanced transformations for multi-resolution signal analysis.
+- Combine supporting utilities like filter dilation and vector embedding to enhance workflow.
+
+Explore `WaveletMatrixProject` and see how the tools can enhance signal processing capabilities.
+
+#Core Functions
 
 ## 1. `WavmatND()`
-**Description**: Constructs a wavelet matrix using a high-pass filter, specified parameters, and an iterative process.
+**Description**: The WavmatND() function generates a wavelet matrix by iteratively applying a high-pass filter to an identity matrix. This then constructs a transformation matrix that captures the high-frequency details of a signal. The function is useful in non-decimated wavelet transforms where no down-sampling is performed. Therefore, it preserves the original signal length.
+
+Key arguments:
+
+- hf: Numeric vector representing the high-pass filter coefficients.
+- N: Size of the wavelet matrix (signal length).
+- k: The number of decomposition levels.
+- shift: The number that indicates the shift needed to be applied to the filter at each iteration.
+
+WavmatND() supports multi-resolution analysis by enabling signal decomposition at finer scales.
 
 ### Example
 ```{r WavmatND-example}
 # Define parameters
-hf <- c(0.5, -0.5)
-N <- 4
-k <- 2
-shift <- 1
+hf <- c(0.5, -0.5) # High-pass filter
+N <- 4  # Signal length
+k <- 2  # Decomposition levels
+shift <- 1  # Filter shift
 
 # Construct the wavelet matrix
 W <- WavmatND(hf, N, k, shift)
 print(W)
 
+image(W, main = "Wavelet Matrix (WavmatND)", xlab = "Columns", ylab = "Rows", col = heat.colors(256))
 ```
-**Explanation**: The WavmatND() function starts with an identity matrix and iteratively applies a high-pass filter to construct the wavelet matrix. This matrix can be used for signal processing tasks where transformations are needed to capture specific frequency components in a signal.
+**Explanation**: The WavmatND() function starts with an identity matrix and applies a high-pass filter to construct the wavelet matrix. This matrix can be used for signal processing tasks where transformations are needed to capture specific frequency components in signals.
+
+**Output**: The output is a matrix where each row represents the high-frequency components at a specific scale.
+
+For a more detailed demonstration, please see WavmatND_demo1 and WavmatND_demo2 in the demos folder.
 
 ## 2. `dilate_filter()`
-**Description**: Expands the input filter by inserting zeros between its elements, effectively "dilating" it. This helps increase the filter length, useful in various stages of wavelet matrix construction.
+**Description**: This function dilates a filter by inserting zeros between its elements. This increases the filter's length without altering the original coefficients. This technique is commonly used in multi-resolution wavelet transformations, where filters which have varying lengths are required at different scales.
+
+Key arguments:
+
+-filt: This is a numeric vector which represents the original filter coefficients.
+-step: This signifies the amount of zeros needed to inserted between each element.
 
 ### Example
 ```{r dilate_filter-example}
@@ -52,7 +94,12 @@ dilated_filt <- dilate_filter(filt, 2)
 print(dilated_filt)
 ```
 
-**Explanation**: dilate_filter() takes an input vector and places zeros between its elements. This is important for adjusting filter lengths in wavelet processing, where filters of specific lengths are required for different transformation levels.
+**Explanation**: dilate_filter() takes an input vector and places zeros between its elements. This adjusts filter lengths in wavelet processing, where filters of specific lengths are required for different transformation levels.
+
+Output: A vector where zeros are interspersed between the original filter coefficients.
+
+Use Case: Used in conjunction with wavelet matrix construction to adapt filters for transformations across multiple levels.
+
 
 
 ## 3. `imbed()`
