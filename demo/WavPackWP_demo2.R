@@ -23,6 +23,9 @@ d <- WP %*% y
 # Check summary statistics
 cat('Summary of d in R:\n')
 cat(sprintf('Min: %f, Max: %f, Mean: %f\n', min(d), max(d), mean(d)))
+# accurate summary should be: Min: -1.2486, Max: 1.23, Mean: 0.0086858
+
+
 
 a <- t(WP) %*% d
 
