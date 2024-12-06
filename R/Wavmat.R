@@ -14,8 +14,7 @@
 #' @import imager
 #' @import pracma
 #' @examples
-#' #'
-#' # Define the low-pass filter (Haar wavelet coefficients)
+#' #Define the low-pass filter (Haar wavelet coefficients)
 #' h <- c(1 / sqrt(2), 1 / sqrt(2))
 #'
 #' # Specify the size of the transformation matrix (power of 2)
