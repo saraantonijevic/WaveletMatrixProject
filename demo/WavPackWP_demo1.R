@@ -41,3 +41,5 @@ trace2 <- sum(diag(t(WP) %*% WP))
 cat("Trace of WP * WP':", trace1, "\n")
 cat("Trace of WP' * WP:", trace2, "\n")
 
+orthogonality_check <- WP %*% t(WP)
+print(orthogonality_check)
