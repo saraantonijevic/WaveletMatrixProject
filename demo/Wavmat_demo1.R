@@ -85,4 +85,4 @@ imager::display(imager::as.cimg(D_scaled_normalized), main = "Scaled and Normali
 cat("Mean of A:", mean(A), "\n")
 cat("Mean of B:", mean(B), "\n")
 cat("Mean of C:", mean(C), "\n")
-cat("Mean of D:", mean(D), "\n")
+cat("Mean of D:", mean(D), "\n") #should be approximately 0
