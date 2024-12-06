@@ -11,8 +11,7 @@ s <- sqrt(t * (1 - t)) * sin((2 * pi * 1.05) / (t + 0.05))
 sigma <- 0.1  # noise level
 noise <- rnorm(length(s), mean = 0, sd = sigma)
 sn <- s + noise
-var(sn)
-
+var(sn) # Should be approximately 0.092 in order to correspond to correct Matlab calculation
 # a noisy doppler signal
 qmf <- c(1/sqrt(2), 1/sqrt(2))  # Haar wavelet
 
@@ -39,8 +38,8 @@ T <- weight(n, k)
 
 # Signal transformation
 tsn <- W %*% matrix(sn, nrow = n, ncol = 1)
-cat(sprintf("Variance of transformed signal: %f\n", var(tsn)))
-cat(sprintf("Variance of last detail level: %f\n", var(tsn[((k - 1) * n + 1):(k * n)])))
+cat(sprintf("Variance of transformed signal : %f\n", var(tsn))) #to match Matlab calculation it should be approximately 0.2721
+cat(sprintf("Variance of last detail level: %f\n", var(tsn[((k - 1) * n + 1):(k * n)]))) #to match Matlab calculation it should be approximately 0.0132
 
 # Extract detail levels and apply thresholding
 temp <- tsn[(n + 1):length(tsn)]
@@ -50,9 +49,11 @@ temp[abs(temp) < threshold] <- 0
 # Reconstruct the signal
 rs <- t(W) %*% T %*% c(tsn[1:n], temp)
 trace <- sum(diag(T))
-cat(sprintf("Trace of T: %f\n", trace))
-cat(sprintf("Variance of reconstructed signal: %f\n", var(rs)))
+cat(sprintf("Trace of T: %f\n", trace)) # Is 1000 if correct
+cat(sprintf("Variance of reconstructed signal: %f\n", var(rs))) #to match Matlab calculation it should be approximately 0.0777
 
+cat("Dimension of T: ", dim(T)) # 5000 5000
+cat("Dimension of T: ", dim(W)) # 5000 1000
 # Create data frames for plotting
 df_original <- data.frame(Index = 1:n, Signal = s)
 df_noisy <- data.frame(Index = 1:n, Signal = sn)
