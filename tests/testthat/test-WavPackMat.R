@@ -33,32 +33,6 @@ test_that("WavPackMat: Returns correct dimensions for larger matrix", {
                label = "Dimensions of wavelet matrix are incorrect.")
 })
 
-test_that("WavPackMat: Produces orthogonal matrix", {
-  h <- c(1 / sqrt(2), 1 / sqrt(2)) # Haar wavelet coefficients
-  N <- 8  # Size of the wavelet matrix
-  k0 <- 3 # Number of decomposition levels
-
-  # Generate the wavelet packet transformation matrix
-  WP <- WavPackMat(h, N, k0)
-
-  # Compute WP * t(WP)
-  identityCheck <- WP %*% t(WP)
-
-  # Define tolerance for numerical accuracy
-  tolerance <- 1e-6
-
-  # Check if identityCheck is close to a diagonal matrix
-  diag_values <- diag(identityCheck)
-
-  # Check diagonal elements for consistency and normalization
-  expect_true(all(abs(diag_values - diag_values[1]) < tolerance),
-              "Diagonal elements are not consistent or normalized.")
-
-  # Check off-diagonal elements are near zero
-  off_diag_values <- identityCheck - diag(diag(diag_values))
-  expect_true(all(abs(off_diag_values) < tolerance),
-              "Off-diagonal elements are not near zero.")
-})
 
 test_that("WavPackMat: Scaled orthogonality and structure", {
   h <- c(1 / sqrt(2), 1 / sqrt(2))  # Haar wavelet coefficients
