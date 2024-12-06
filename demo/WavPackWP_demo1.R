@@ -36,10 +36,7 @@ print(d)
 print("yy (inverse result):")
 print(yy)
 
-trace1 <- sum(diag(WP %*% t(WP)))
-trace2 <- sum(diag(t(WP) %*% WP))
+trace1 <- sum(diag(WP %*% t(WP))) #should about 4
+trace2 <- sum(diag(t(WP) %*% WP)) #should about 4
 cat("Trace of WP * WP':", trace1, "\n")
 cat("Trace of WP' * WP:", trace2, "\n")
-
-orthogonality_check <- WP %*% t(WP)
-print(orthogonality_check)
