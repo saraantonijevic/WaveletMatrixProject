@@ -22,9 +22,11 @@ A matrix representing the wavelet transformation.
 Constructs a wavelet matrix using a high-pass filter, specified parameters, and an iterative process to build matrices.
 }
 \examples{
-hf <- c(0.5, -0.5)
-N <- 4
-k <- 2
-shift <- 1
-W <- WavmatND(hf, N, k, shift)
+# Example: Constructing a Wavelet Matrix
+hf <- c(0.5, -0.5) # Define a high-pass filter
+N <- 8             # Size of the wavelet matrix
+k <- 3             # Number of iterations
+shift <- 2         # Apply a shift
+W <- WavmatND(hf, N, k, shift) # Construct the wavelet matrix
+print(W)           # Display the resulting wavelet matrix
 }
