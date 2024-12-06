@@ -4,7 +4,7 @@ library(WaveletMatrixProject)
 # and its application to a sample vector.
 
 
-# Define the filter (e.g., SYMMLET 4)
+# Define the filter ( coefficients define the specific wavelet used for the transformation)
 filt <- c(-0.07576571478934, -0.02963552764595,
           0.49761866763246, 0.80373875180522,
           0.29785779560554, -0.09921954357694,
@@ -24,18 +24,21 @@ WP <- WavPackMatWP(filt, N, k0, shift)
 # Print the matrix
 print(WP)
 
-# Example of applying this to a vector y
+# This vector will be transformed using the wavelet packet matrix
 y <- c(1, 0, -3, 2, 1, 0, 1, 2)
 
-d <- sqrt(k0) * WP %*% y
-yy <- (1 / sqrt(k0)) * t(WP) %*% d
+# Perform forward wavelet packet transformation
+d <- sqrt(k0) * WP %*% y #scaled by `sqrt(k0)` for normalization
+
+# Perform inverse wavelet packet transformation
+yy <- (1 / sqrt(k0)) * t(WP) %*% d #inverse scaled by `1 / sqrt(k0)` for normalization
 
 # Print the transformed and inverse-transformed vectors
 print("d vector:")
 print(d)
 print("yy (inverse result):")
 print(yy)
-
+# Verify orthogonality of the wavelet packet transformation matrix
 trace1 <- sum(diag(WP %*% t(WP))) #should about 4
 trace2 <- sum(diag(t(WP) %*% WP)) #should about 4
 cat("Trace of WP * WP':", trace1, "\n")
