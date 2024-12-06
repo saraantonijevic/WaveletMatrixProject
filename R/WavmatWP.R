@@ -19,16 +19,16 @@ WavPackMatWP <- function(h, N, k0, shift = 2) {
 
   # Ensure the input filter h is a vector and construct the corresponding high-pass filter g
   h <- as.vector(h) # Ensure h is a vector for processing
-  g <-
-    rev(Conj(h) * (-1) ^ (1:length(h)))# Construct g as the reversed conjugate of h multiplied by alternating signs
+  g <- rev(Conj(h) * (-1) ^ (1:length(h)))# Construct g as the reversed conjugate of h multiplied by alternating signs
 
   # Extend filters h and g by padding them with zeros up to length N
   h <- c(h, rep(0, N)) # Extend filter H by 0's to sample by modulus
   g <- c(g, rep(0, N)) # Extend filter G by 0's to sample by modulus
 
   # Initialize the wavelet packet transformation matrix by using the first level to determine dimensions
-  subW <-
-    getsubWP(1, h, g, J, N)  # Use the first level to check dimensions
+  subW <- getsubWP(1, h, g, J, N)  # Use the first level to check dimensions
+
+
   WP <- matrix(nrow = 0, ncol = ncol(subW))
 
   # Construct the wavelet packet matrix up to the specified depth k0
@@ -42,6 +42,8 @@ WavPackMatWP <- function(h, N, k0, shift = 2) {
   }
   # Normalize the resulting matrix by the square root of the depth k0
   WP <- sqrt(1 / k0) * WP
+
+
 
   # Return the final wavelet packet transformation matrix
   return(WP)
@@ -60,32 +62,31 @@ getsubWP <- function(jstep, h, g, J, N) {
     subW <- rbind(subW %*% hgmat$hmat, subW %*% hgmat$gmat)
   }
 
+
   # Return the constructed sub-matrix for the current decomposition level
   return(subW)
 }
 
+
 getHGmatWP <- function(k, h, g, J, N) {
-  # Defining dimensions for the filter matrices based on the current level k
   ubJk <- 2 ^ (J - k)
   ubJk1 <- 2 ^ (J - k + 1)
-  shift <- 2# Shift parameter for wavelet packet decomp
+  shift <- 2
 
-  # Initializing H and G matrices with zeros
   hmat <- matrix(0, nrow = ubJk1, ncol = ubJk)
   gmat <- matrix(0, nrow = ubJk1, ncol = ubJk)
 
-  # Populating the H and G matrices based on the given filter coefficients
   for (jj in 1:ubJk) {
     for (ii in 1:ubJk1) {
-      # Calcu the modulus to handle circular boundary conditions
-      modulus <- (N + ii - 2 * jj + shift) %% ubJk1
-      modulus <- modulus + (modulus == 0) * ubJk1
+      modulus <- (ii - 2 * jj + shift) %% ubJk1
+      modulus <- ifelse(modulus == 0, ubJk1, modulus)
 
-      # Assigning the appropriate filter coefficients to the matrices
       hmat[ii, jj] <- h[modulus]
       gmat[ii, jj] <- g[modulus]
     }
   }
-  # Returning the H and G matrices transposed as a list
+
+
+
   return(list(hmat = t(hmat), gmat = t(gmat)))
 }
