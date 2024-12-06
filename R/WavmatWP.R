@@ -77,20 +77,26 @@ getsubWP <- function(jstep, h, g, J, N) {
 
 
 getHGmatWP <- function(k, h, g, J, N) {
-  ubJk <- 2 ^ (J - k)
-  ubJk1 <- 2 ^ (J - k + 1)
-  shift <- 2
+  # Calculate the size of the submatrices for this decomposition level
+  ubJk <- 2 ^ (J - k) # Number of columns in the submatrices
+  ubJk1 <- 2 ^ (J - k + 1)  # Number of rows in the submatrices
+  shift <- 2 # Fixed shift value applied in the modulus calculation
 
+
+  # Initialize matrices for the low-pass and high-pass filters
   hmat <- matrix(0, nrow = ubJk1, ncol = ubJk)
   gmat <- matrix(0, nrow = ubJk1, ncol = ubJk)
 
+   # Iterate over columns (jj) and rows (ii) to assign filter coefficients
   for (jj in 1:ubJk) {
     for (ii in 1:ubJk1) {
+      # Compute the modulus for circular indexing
       modulus <- (ii - 2 * jj + shift) %% ubJk1
-      modulus <- ifelse(modulus == 0, ubJk1, modulus)
+      modulus <- ifelse(modulus == 0, ubJk1, modulus)# Adjust for modulus zero
 
-      hmat[ii, jj] <- h[modulus]
-      gmat[ii, jj] <- g[modulus]
+      # Assign coefficients from the filters based on the modulus calculation
+      hmat[ii, jj] <- h[modulus]# Low-pass filter coefficients
+      gmat[ii, jj] <- g[modulus]# High-pass filter coefficients
     }
   }
 
