@@ -23,8 +23,7 @@ This function creates an optimized wavelet transformation matrix for high-qualit
 and sparse matrix operations.
 }
 \examples{
-#'
-# Define the low-pass filter (Haar wavelet coefficients)
+#Define the low-pass filter (Haar wavelet coefficients)
 h <- c(1 / sqrt(2), 1 / sqrt(2))
 
 # Specify the size of the transformation matrix (power of 2)
