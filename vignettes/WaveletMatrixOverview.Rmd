@@ -22,11 +22,11 @@ library(WaveletMatrixProject)
 
 # Introduction
 
-The `WaveletMatrixProject` is a comprehensive package for the construction and manipulation of wavelets and wavelet transformation matrices. These tools are essential for signal processing tasks, such as:
+The `WaveletMatrixProject` is a package built for the construction and manipulation of wavelets and wavelet transformation matrices. These tools are essential for signal processing tasks, such as:
 
 - Decomposing signals into multiple resolutions.
 - Analyzing frequency components across different scales.
-- Enhancing feature extraction and reconstructring signals from wavelet transformations.
+- Enhancing feature extraction, and reconstructing signals from wavelet transformations.
 
 This vignette serves as a guide to the package, composing of:
 
@@ -40,12 +40,10 @@ By the end of this vignette, you will be able to:
 - Apply advanced transformations for multi-resolution signal analysis.
 - Combine supporting utilities like filter dilation and vector embedding to enhance workflow.
 
-Explore `WaveletMatrixProject` and see how the tools can enhance signal processing capabilities.
-
 #Core Functions
 
 ## 1. `WavmatND()`
-**Description**: The WavmatND() function generates a wavelet matrix by iteratively applying a high-pass filter to an identity matrix. This then constructs a transformation matrix that captures the high-frequency details of a signal. The function is useful in non-decimated wavelet transforms where no down-sampling is performed. Therefore, it preserves the original signal length.
+**Description**: The WavmatND() function generates a wavelet matrix by applying a high-pass filter to an identity matrix. This then constructs a transformation matrix that captures the high-frequency details of a signal. The function is useful in non-decimated wavelet transforms where no down-sampling is performed. Therefore, it preserves the original signal length.
 
 Key arguments:
 
@@ -61,7 +59,7 @@ WavmatND() supports multi-resolution analysis by enabling signal decomposition a
 # Define parameters
 hf <- c(0.5, -0.5) # High-pass filter
 N <- 4  # Signal length
-k <- 2  # Decomposition levels
+k <- 3  # Decomposition levels
 shift <- 1  # Filter shift
 
 # Construct the wavelet matrix
@@ -187,4 +185,7 @@ Boundary Handling: Use modulus operations to wrap around indices. This ensures t
 For a more detailed demonstration, see Wavmat_demo1 and Wavmat_demo2 in the demo folder.
 
 
+## 4. Demo
+
+For further and more in-depth exhibitions of how these functions work, please refer to the demo folder. There are various demonstrations included on how the functions help in thresholding, image-processing, and more.
 
