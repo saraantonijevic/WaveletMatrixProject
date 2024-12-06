@@ -21,3 +21,12 @@ A matrix representing the wavelet packet transformation.
 \description{
 Construct Wavelet Packet Transformation Matrix
 }
+\examples{
+# Example: Constructing a Wavelet Packet Transformation Matrix
+h <- c(0.5, 0.5)  # Define a low-pass filter
+N <- 8 # Size of the matrix (must be a power of 2)
+k0 <- 3 # Depth of the wavelet transformation
+shift <- 2 # Optional shift parameter
+WP <- WavPackMatWP(h, N, k0, shift) # Construct the wavelet packet matrix
+print(WP) # Display the resulting wavelet packet transformation matrix
+}
