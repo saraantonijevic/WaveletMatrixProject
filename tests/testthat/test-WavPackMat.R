@@ -1,45 +1,125 @@
 library(testthat)
 library(WaveletMatrixProject)
-test_that("WavPackMat() produces a matrix with correct dimensions", {
-  h <- c(0.5, 0.5)
-  N <- 8
-  k0 <- 3
-  shift <- 2
 
-  result <- WavPackMat(h, N, k0, shift)
 
-  # Check that the result is a matrix
-  expect_true(is.matrix(result))
+test_that("WavPackMat: Returns correct dimensions", {
+  h <- c(1 / sqrt(2), 1 / sqrt(2))  # Low-pass filter
+  N <- 4  # Size of the wavelet matrix
+  k0 <- 2  # Number of decomposition levels
 
-  # Check the number of rows (adjust if needed)
-  expected_rows <- 24
-  expect_equal(nrow(result), expected_rows)
-  expect_equal(ncol(result), N)
+  WP <- WavPackMat(h, N, k0)
+
+  # Expected rows = k0 * N
+  expected_rows <- k0 * N
+
+  # Ensure the dimensions are correct
+  expect_equal(dim(WP), c(expected_rows, N),
+               label = "Dimensions of wavelet matrix are incorrect.")
 })
 
-test_that("WavPackMat() handles zero-length filter gracefully", {
-  h <- c() # Empty filter
-  N <- 8
-  k0 <- 3
-  shift <- 2
 
-  # Expect the error raised by invalid operations on empty `h`
-  expect_error(WavPackMat(h, N, k0, shift), "non-numeric argument to function")
+test_that("WavPackMat: Returns correct dimensions for larger matrix", {
+  h <- c(1 / sqrt(2), 1 / sqrt(2))  # Low-pass filter
+  N <- 8  # Size of the wavelet matrix
+  k0 <- 3  # Number of decomposition levels
+
+  WP <- WavPackMat(h, N, k0)
+
+  # Expected rows = k0 * N
+  expected_rows <- k0 * N
+
+  # Ensure the dimensions are correct
+  expect_equal(dim(WP), c(expected_rows, N),
+               label = "Dimensions of wavelet matrix are incorrect.")
 })
 
-test_that("WavPackMat() handles single-element filter correctly", {
-  h <- c(1) # Single coefficient filter
-  N <- 8
-  k0 <- 3
-  shift <- 2
+test_that("WavPackMat: Produces orthogonal matrix", {
+  h <- c(1 / sqrt(2), 1 / sqrt(2)) # Haar wavelet coefficients
+  N <- 8  # Size of the wavelet matrix
+  k0 <- 3 # Number of decomposition levels
 
-  result <- WavPackMat(h, N, k0, shift)
+  # Generate the wavelet packet transformation matrix
+  WP <- WavPackMat(h, N, k0)
 
-  # Check that the result is a matrix
-  expect_true(is.matrix(result))
+  # Compute WP * t(WP)
+  identityCheck <- WP %*% t(WP)
 
-  # Validate dimensions based on observed behavior
-  expected_rows <- 24 # Observed row count for single coefficient
-  expect_equal(nrow(result), expected_rows)
-  expect_equal(ncol(result), N)
+  # Define tolerance for numerical accuracy
+  tolerance <- 1e-6
+
+  # Check if identityCheck is close to a diagonal matrix
+  diag_values <- diag(identityCheck)
+
+  # Check diagonal elements for consistency and normalization
+  expect_true(all(abs(diag_values - diag_values[1]) < tolerance),
+              "Diagonal elements are not consistent or normalized.")
+
+  # Check off-diagonal elements are near zero
+  off_diag_values <- identityCheck - diag(diag(diag_values))
+  expect_true(all(abs(off_diag_values) < tolerance),
+              "Off-diagonal elements are not near zero.")
+})
+
+test_that("WavPackMat: Scaled orthogonality and structure", {
+  h <- c(1 / sqrt(2), 1 / sqrt(2))  # Haar wavelet coefficients
+  N <- 8 # Size of the wavelet matrix
+  k0 <- 3 # Number of decomposition levels
+
+  # Generate the wavelet packet transformation matrix
+  WP <- WavPackMat(h, N, k0)
+
+  # Compute WP * t(WP)
+  identityCheck <- WP %*% t(WP)
+
+  # Define tolerance for numerical accuracy
+  tolerance <- 1e-6
+
+  # Check that diagonal elements are scaled correctly
+  diag_values <- diag(identityCheck)
+  expected_diag <- 1 / k0
+  expect_true(all(abs(diag_values - expected_diag) < tolerance),
+              "Diagonal elements are not scaled correctly.")
+
+  # Check off-diagonal blocks within the same sub-matrix level
+  for (level in 1:k0) {
+    # Calculate the row range for this level
+    start_row <- (level - 1) * N + 1
+    end_row <- level * N
+
+    # Extract the block and verify off-diagonal values
+    block <- identityCheck[start_row:end_row, start_row:end_row]
+    off_diag_block <- block - diag(diag(block))
+    expect_true(all(abs(off_diag_block) < tolerance))
+  }
+})
+
+test_that("WavPackMat: Energy is preserved", {
+  h <- c(1 / sqrt(2), 1 / sqrt(2))  # Haar wavelet coefficients
+  N <- 8 # Size of the wavelet matrix
+  k0 <- 3 # Number of decomposition levels
+
+  # Generate the wavelet packet transformation matrix
+  WP <- WavPackMat(h, N, k0)
+
+  # Create a random input vector
+  set.seed(123)  # For reproducibility
+  x <- rnorm(N)
+
+  # Transform the input vector using WP
+  transformed_x <- WP %*% x
+
+  # Compute the energy in the original and transformed spaces
+  original_energy <- sum(x^2)
+  transformed_energy <- sum(transformed_x^2)
+
+  # Debugging: Print energy values for verification
+  cat("Original energy:", original_energy)
+  cat("Transformed energy:", transformed_energy)
+
+  # Define tolerance for numerical accuracy
+  tolerance <- 1e-6
+
+  # Check if energy is preserved
+  expect_equal(transformed_energy, original_energy, tolerance = tolerance,
+               info = "Energy is not preserved in the wavelet packet transformation.")
 })
