@@ -1,8 +1,9 @@
 ---
-title: "WaveletMatrixOverview"
+title: "Wavelet Matrix Overview"
+author: "Sara Antonijevic"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{WaveletMatrixOverview}
+  %\VignetteIndexEntry{Wavelet Matrix Overview}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
