@@ -40,7 +40,7 @@ By the end of this vignette, you will be able to:
 - Apply advanced transformations for multi-resolution signal analysis.
 - Combine supporting utilities like filter dilation and vector embedding to enhance workflow.
 
-#Core Functions
+# Core Functions
 
 ## 1. `WavmatND()`
 **Description**: The WavmatND() function generates a wavelet matrix by applying a high-pass filter to an identity matrix. This then constructs a transformation matrix that captures the high-frequency details of a signal. The function is useful in non-decimated wavelet transforms where no down-sampling is performed. Therefore, it preserves the original signal length.
@@ -118,7 +118,7 @@ image(WP, main = "Wavelet Packet Matrix (WavPackMatWP)", xlab = "Columns", ylab 
 
 - **Key Components of `getsubWP()`**:
   - **Iterative construction**: `getsubWP()` builds sub-matrices by applying filters at each level in reverse order.
-  - **Filter applications**: Combines H and G matrices to decompose the signal at its current level.
+  - **Filter applications**: Combines h and g matrices to decompose the signal at its current level.
 
 - **Arguments in `getsubWP()`**:
   - **jstep**: Current decomposition level.
