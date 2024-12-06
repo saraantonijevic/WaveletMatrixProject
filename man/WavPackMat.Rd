@@ -22,3 +22,21 @@ A sparse matrix representing the wavelet packet transformation.
 This function creates an optimized wavelet transformation matrix for high-quality filter coefficients
 and sparse matrix operations.
 }
+\examples{
+#'
+# Define the low-pass filter (Haar wavelet coefficients)
+h <- c(1 / sqrt(2), 1 / sqrt(2))
+
+# Specify the size of the transformation matrix (power of 2)
+N <- 8
+
+# Set the depth of wavelet decomposition
+k0 <- 3
+
+# Generate the wavelet packet transformation matrix
+WP <- WavPackMat(h, N, k0)
+
+# Print the resulting matrix
+print(WP)
+
+}
