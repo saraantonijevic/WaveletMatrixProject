@@ -1,27 +1,21 @@
-WaveletMatrixProject
-================
+---
+title: "WaveletMatrixProject"
+output: github_document
+---
 
 # WaveletMatrixProject
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-**WaveletMatrixProject** is an R package designed for constructing and
-applying optimized orthogonal wavelet transformation matrices for signal
-processing tasks. The package supports wavelet packet transformations,
-signal decomposition, denoising, and reconstruction, making it suitable
-for both synthetic and real data analysis.
+**WaveletMatrixProject** is an R package designed for constructing and applying optimized orthogonal wavelet transformation matrices for signal processing tasks. The package supports wavelet packet transformations, signal decomposition, denoising, and reconstruction, making it suitable for both synthetic and real data analysis.
 
 ## Installation
 
-You can install the ‘WaveletMatrixProject’ package, you can directly
-install it from
-[GitHub](https://github.com/saraantonijevic/WaveletMatrixProject),
-follow the steps below:
+You can install the 'WaveletMatrixProject' package, you can directly install it from [GitHub](https://github.com/saraantonijevic/WaveletMatrixProject), follow the steps below:
 
-1.  Install `devtools`
-
-``` r
+1. Install `devtools`
+```r
 install.packages("devtools")
 
 devtools::install_github("saraantonijevic/WaveletMatrixProject")
@@ -29,8 +23,8 @@ devtools::install_github("saraantonijevic/WaveletMatrixProject")
 
 ## Basic Usage
 
-Here is an example demonstrating how to use the ‘WaveletMatrixProject’
-package for signal processing:
+Here is an example demonstrating how to use the 'WaveletMatrixProject' package for signal processing:
+
 
 ``` r
 # Load the WaveletMatrixProject package
@@ -84,41 +78,38 @@ plot(t, reconstructed_signal, type = "l", col = "green", main = "Denoised Signal
 lines(t, s, col = "blue", lty = 2)  # Overlay original signal
 legend("topright", legend = c("Denoised Signal", "Original Signal"),
        col = c("green", "blue"), lty = c(1, 2))
-```
 
+```
 ## Features
 
 The `WaveletMatrixProject` package offers the following functionalities:
 
 - **Wavelet Matrix Construction**:
-  - Create wavelet and wavelet packet transformation matrices using
-    customizable filters.
+  - Create wavelet and wavelet packet transformation matrices using customizable filters.
   - Supports a variety of wavelet filters, such as Haar and Symmlet.
+
 - **Signal Transformation**:
-  - Apply wavelet or wavelet packet transformations to signals for
-    decomposition.
-  - Analyze signals in the wavelet domain to identify frequency
-    components.
+  - Apply wavelet or wavelet packet transformations to signals for decomposition.
+  - Analyze signals in the wavelet domain to identify frequency components.
+
 - **Thresholding and Denoising**:
-  - Perform hard or soft thresholding on wavelet coefficients to remove
-    noise.
-  - Reconstruct the denoised signal from thresholded wavelet
-    coefficients.
+  - Perform hard or soft thresholding on wavelet coefficients to remove noise.
+  - Reconstruct the denoised signal from thresholded wavelet coefficients.
+
 - **Visualization**:
   - Visualize the original, noisy, and denoised signals.
-  - Explore wavelet coefficients using plots for better insight of their
-    signal components.
+  - Explore wavelet coefficients using plots for better insight of their signal components.
+
 
 ## Vignette
+For a detailed overview and examples, look at the [WaveletMatrixOverview vignette](vignettes/WaveletMatrixOverview.md).
 
-For a detailed overview and examples, look at the [WaveletMatrixOverview
-vignette](vignettes/WaveletMatrixOverview.md).
 
 ## License
 
-This project is licensed under the MIT License. See the
-[LICENSE](LICENSE.md) file for more details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for more details.
 
 ## Contact
 
-Email: <saraant@tamu.edu>
+Email: saraant@tamu.edu
+
