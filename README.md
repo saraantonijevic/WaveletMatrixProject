@@ -11,7 +11,7 @@ Some further things left to complete in the project is to implement the function
 
 ## Installation
 
-You can install the development version of WaveletMatrixProject from [GitHub](https://github.com/saraantonijevic/WaveletMatrixProject), follow the steps below:
+You can install the developed version of WaveletMatrixProject from [GitHub](https://github.com/saraantonijevic/WaveletMatrixProject), follow the steps below:
 
 1. Install `devtools`
 ```r
