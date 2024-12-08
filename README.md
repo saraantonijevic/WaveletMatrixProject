@@ -22,69 +22,196 @@ follow the steps below:
 1.  Install `devtools`
 
 ``` r
+#If you have not yet, install devtools.
 install.packages("devtools")
 
+#Installing WaveletMatrix Project from GitHub:
 devtools::install_github("saraantonijevic/WaveletMatrixProject")
 ```
 
-## Basic Usage
+To install this package with the vignette, then run the following code:
 
-Here is an example demonstrating how to use the ‘WaveletMatrixProject’
-package for signal processing:
+``` r
+install.packages("clinfun")
+install.packages("rmarkdown")
+
+devtools::install_github("saraantonijevic/WaveletMatrixProject", build_vignettes = TRUE, force = TRUE)
+```
+
+## Usage
+
+The following are examples demonstrating how to use the
+‘WaveletMatrixProject’ package for signal processing:
+
+### Example 1: Wavelet Packet Transformation of a Doppler Signal
+
+**Step 1:** Load the WaveletMatrixProject Package
 
 ``` r
 # Load the WaveletMatrixProject package
 library(WaveletMatrixProject)
+```
 
+**Step 2:** Generate a Noisy Doppler Signal
+
+We first create a synthetic Doppler signal, which is commonly used in
+signal processing to evaluate the effectiveness of transformations:
+
+``` r
+
+# Parameters for the wavelet transformation
+nl <- 11  # Number of levels (J-level)
+n <- 2^nl # Signal length
+level <- 5  # Decomposition levels
+shift <- 2  # Standard shift
+filt <- c(sqrt(2)/2, sqrt(2)/2)  # Haar wavelet filter coefficients
 
 # Generate a Doppler signal
-n <- 1000
-t <- seq(1/n, 1, length.out = n)
-s <- sqrt(t * (1 - t)) * sin((2 * pi * 1.05) / (t + 0.05))  # Doppler signal
+t <- seq(0, 1, length.out = n)
+y <- sqrt(t * (1 - t)) * sin((2 * pi * 1.05) / (t + 0.05))
+```
 
-# Add Gaussian noise
-set.seed(42)
-sigma <- 0.1
-noisy_signal <- s + rnorm(n, mean = 0, sd = sigma)
+**Step 3:** Perform Wavelet Packet Transformation
 
-# Plot the noisy signal
-plot(t, noisy_signal, type = "l", col = "red", main = "Noisy Doppler Signal")
-lines(t, s, col = "blue", lty = 2)  # Overlay original signal for comparison
-legend("topright", legend = c("Noisy Signal", "Original Signal"),
-       col = c("red", "blue"), lty = c(1, 2))
-       
-       
-# Apply Wavelet Packet Transformation
+``` r
+# Generate the wavelet packet transformation matrix
+WP <- WavPackMatWP(filt, n, level, shift)
 
-# Define a Haar wavelet filter
+# Reshape the Doppler signal into a column vector
+y <- matrix(y, nrow = n, ncol = 1)
+
+# Perform the forward wavelet packet transformation
+d <- WP %*% y
+
+# Perform the inverse transformation for reconstruction
+a <- t(WP) %*% d
+```
+
+**Step 4:** Visualize Results
+
+Visualize the original signal, coefficients, reconstruction, and
+reconstruction error:
+
+``` r
+
+# Plot the original signal
+p1 <- ggplot2::ggplot(data.frame(x = 1:n, y = y[, 1]), ggplot2::aes(x, y)) +
+  ggplot2::geom_line() +
+  ggplot2::ggtitle("Original Doppler Signal")
+
+# Plot wavelet packet coefficients
+p2 <- ggplot2::ggplot(data.frame(x = 1:length(d), y = d[, 1]), ggplot2::aes(x, y)) +
+  ggplot2::geom_line() +
+  ggplot2::ggtitle("Wavelet Packet Coefficients")
+
+# Plot reconstructed signal
+p3 <- ggplot2::ggplot(data.frame(x = 1:n, y = a[, 1]), ggplot2::aes(x, y)) +
+  ggplot2::geom_line() +
+  ggplot2::ggtitle("Reconstructed Signal")
+
+# Plot reconstruction error
+p4 <- ggplot2::ggplot(data.frame(x = 1:n, y = a[, 1] - y[, 1]), ggplot2::aes(x, y)) +
+  ggplot2::geom_line() +
+  ggplot2::ggtitle("Reconstruction Error")
+
+# Arrange the plots
+gridExtra::grid.arrange(p1, p2, p3, p4, ncol = 2)
+```
+
+### Example 2: Denoising a Noisy Doppler Signal
+
+**Step 1:** Generate a Doppler Signal
+
+Simulate a noisy signal by adding Gaussian noise to the Doppler signal:
+
+``` r
+# Load the package
+library(WaveletMatrixProject)
+
+# Signal parameters
+sigma <- 0.05  # Noise level
+m <- 250  # Signal size
+t <- seq(1/m, 1, length.out = m)
+
+# Generate a Doppler signal and add noise
+s <- sqrt(t * (1 - t)) * sin((2 * pi * 1.05) / (t + 0.05))
+noise <- rnorm(m, 0, sigma)
+sn <- s + noise
+```
+
+**Step 2:** Perform Wavelet Packet Transformation
+
+Transform the noisy signal, estimate the noise level, and apply
+thresholding:
+
+``` r
+# Decomposition level and wavelet filter
+J <- floor(log2(m))
+k <- J - 1
 qmf <- c(1/sqrt(2), 1/sqrt(2))
+W <- WavmatND(qmf, m, k, 0)
 
-# Create the wavelet transformation matrix
-k <- 4  # Number of decomposition levels
-W <- WavmatND(qmf, n, k, shift = 0)
+# Transform noisy signal
+tsn <- W %*% sn
 
-# Transform the noisy signal
-transformed_signal <- W %*% matrix(noisy_signal, nrow = n)
+# Estimate noise level and calculate threshold
+sigmahat <- (var(tsn[(m + 1):length(tsn)][seq(1, length(tsn[(m + 1):length(tsn)]), 2)]) +
+               var(tsn[(m + 1):length(tsn)][seq(2, length(tsn[(m + 1):length(tsn)]), 2)])) / 2
+threshold <- sqrt(2 * log(k * m) * sigmahat)
 
-# Plot the transformed signal
-plot(transformed_signal, type = "l", col = "purple",
-     main = "Transformed Signal (Wavelet Coefficients)")
-
-
-# Thresholding and Signal Reconstruction# Thresholding
-threshold <- sqrt(2 * log(n)) * sd(transformed_signal)
-thresholded_signal <- ifelse(abs(transformed_signal) > threshold,
-                             transformed_signal, 0)
+# Apply hard-thresholding
+snt <- tsn[(m + 1):length(tsn)] * (abs(tsn[(m + 1):length(tsn)]) > threshold)
+tsn_combined <- c(tsn[1:m], snt)
 
 # Reconstruct the signal
-reconstructed_signal <- as.vector(t(W) %*% thresholded_signal)
-
-# Plot the denoised signal
-plot(t, reconstructed_signal, type = "l", col = "green", main = "Denoised Signal")
-lines(t, s, col = "blue", lty = 2)  # Overlay original signal
-legend("topright", legend = c("Denoised Signal", "Original Signal"),
-       col = c("green", "blue"), lty = c(1, 2))
+T <- diag(1, nrow = length(tsn_combined))  # Optional weighting matrix
+rs <- t(W) %*% T %*% tsn_combined
 ```
+
+**Step 3:** Visualize Denoising Results
+
+Plot the original, noisy, and denoised signals:
+
+``` r
+
+# Prepare data frames for plotting
+original_signal <- data.frame(x = 1:m, y = s)
+noisy_signal <- data.frame(x = 1:m, y = sn)
+denoised_signal <- data.frame(x = 1:m, y = rs[1:m])
+transformed_signal <- data.frame(x = 1:length(tsn), y = tsn)
+
+# Create individual plots
+p1 <- ggplot2::ggplot(original_signal, ggplot2::aes(x, y)) +
+  ggplot2::geom_line() +
+  ggplot2::ggtitle("Original Signal") +
+  ggplot2::labs(x = "Index", y = "Amplitude")
+
+p2 <- ggplot2::ggplot(noisy_signal, ggplot2::aes(x, y)) +
+  ggplot2::geom_line() +
+  ggplot2::ggtitle("Noisy Signal") +
+  ggplot2::labs(x = "Index", y = "Amplitude")
+
+p3 <- ggplot2::ggplot(denoised_signal, ggplot2::aes(x, y)) +
+  ggplot2::geom_line() +
+  ggplot2::ggtitle("Denoised Signal") +
+  ggplot2::labs(x = "Index", y = "Amplitude")
+
+p4 <- ggplot2::ggplot(transformed_signal, ggplot2::aes(x, y)) +
+  ggplot2::geom_line() +
+  ggplot2::ggtitle("Transformed Signal") +
+  ggplot2::labs(x = "Index", y = "Coefficient")
+
+# Arrange the plots in a grid
+gridExtra::grid.arrange(p1, p2, p3, p4, ncol = 2)
+```
+
+This demonstrates how the wavelet packet coefficients and reconstruction
+align closely with the original signal.
+
+**Summary:** These examples demonstrate how the WaveletMatrixProject
+package can transform, analyze, and denoise signals using matrix-based
+wavelet transforms. The results showcase the way wavelet transforms are
+applied to reduce noise while retaining essential signal features.
 
 ## Features
 
@@ -111,14 +238,11 @@ The `WaveletMatrixProject` package offers the following functionalities:
 
 ## Vignette
 
-For a detailed overview and examples, look at the [WaveletMatrixOverview
-vignette](vignettes/WaveletMatrixOverview.md).
+For a detailed overview and examples, check out the
+[WaveletMatrixProject
+vignette](https://saraantonijevic.github.io/WaveletMatrixProject/articles/WaveletMatrixProject.html).
 
 ## License
 
 This project is licensed under the MIT License. See the
 [LICENSE](LICENSE.md) file for more details.
-
-## Contact
-
-Email: <saraant@tamu.edu>
