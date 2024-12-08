@@ -229,7 +229,7 @@ The `WaveletMatrixProject` package offers the following functionalities:
 
 
 ## Vignette
-For a detailed overview and examples, look at the [WaveletMatrixOverview vignette](vignettes/WaveletMatrixOverview.md).
+For a detailed overview and examples, look at the [WaveletMatrixOverview vignette](https://github.com/saraantonijevic/WaveletMatrixProject/blob/main/inst/doc/WaveletMatrixOverview.html).
 
 
 ## License

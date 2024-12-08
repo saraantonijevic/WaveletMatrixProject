@@ -1,8 +1,4 @@
 library(WaveletMatrixProject)
-# WavPackWP_demo1.R
-# This demo script demonstrates the construction of a wavelet packet transformation matrix
-# and its application to a sample vector.
-
 
 # Define the filter ( coefficients define the specific wavelet used for the transformation)
 filt <- c(-0.07576571478934, -0.02963552764595,

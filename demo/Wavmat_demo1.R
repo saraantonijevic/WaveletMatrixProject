@@ -1,7 +1,7 @@
 # Load necessary functions and data from the package
 library(WaveletMatrixProject)
 
-# Define Symmlet 4 wavelet filter from wavelets package
+# Define wavelet filter from wavelets package
 h <- c(-0.075765714789341, -0.029635527645954, 0.497618667632458,
        0.803738751805216, 0.297857795605542, -0.099219543576935,
        -0.012603967262261, 0.032223100604071)
@@ -9,7 +9,7 @@ h <- c(-0.075765714789341, -0.029635527645954, 0.497618667632458,
 # Load the Lena dataset (assuming it is available as a grayscale matrix)
 data("lena")
 
-# Transform lena data to match MATLAB's transformation of image data
+# Transform lena data
 A_full <- 255 - t(lena)
 
 # Extract the central 256x256 portion for transformation
