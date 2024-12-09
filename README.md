@@ -1,8 +1,6 @@
 WaveletMatrixProject
 ================
 
-# WaveletMatrixProject
-
 <!-- badges: start -->
 <!-- badges: end -->
 
@@ -235,6 +233,7 @@ The `WaveletMatrixProject` package offers the following functionalities:
   - Visualize the original, noisy, and denoised signals.
   - Explore wavelet coefficients using plots for better insight of their
     signal components.
+
 
 
 ## Vignette
