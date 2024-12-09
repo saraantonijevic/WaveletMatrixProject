@@ -33,7 +33,7 @@ To install this package with the vignette, then run the following code:
 
 ``` r
 
-install.packages(c("clinfun", "rmarkdown"))
+install.packages("rmarkdown")
 
 devtools::install_github("saraantonijevic/WaveletMatrixProject", build_vignettes = TRUE)
 
