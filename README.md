@@ -20,20 +20,23 @@ follow the steps below:
 1.  Install `devtools`
 
 ``` r
+
 #If you have not yet, install devtools.
 install.packages("devtools")
 
 #Installing WaveletMatrix Project from GitHub:
 devtools::install_github("saraantonijevic/WaveletMatrixProject")
+
 ```
 
 To install this package with the vignette, then run the following code:
 
 ``` r
-install.packages("clinfun")
-install.packages("rmarkdown")
 
-devtools::install_github("saraantonijevic/WaveletMatrixProject", build_vignettes = TRUE, force = TRUE)
+install.packages(c("clinfun", "rmarkdown"))
+
+devtools::install_github("saraantonijevic/WaveletMatrixProject", build_vignettes = TRUE)
+
 ```
 
 ## Usage
