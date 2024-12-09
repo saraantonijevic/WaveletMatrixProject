@@ -230,7 +230,7 @@ The `WaveletMatrixProject` package offers the following functionalities:
 
 
 ## Vignette
-For a detailed overview and examples, look at the [WaveletMatrixOverview vignette](https://saraantonijevic.github.io/WaveletMatrixProject/WaveletMatrixOverview.html).
+For a detailed overview and examples, check out the [Wavelet Matrix Overview vignette](https://saraantonijevic.github.io/WaveletMatrixProject/WaveletMatrixOverview.html).
 
 
 
