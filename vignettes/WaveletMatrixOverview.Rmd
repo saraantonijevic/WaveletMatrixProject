@@ -1,7 +1,12 @@
 ---
 title: "Wavelet Matrix Overview"
 author: "Sara Antonijevic"
-output: rmarkdown::html_vignette
+output:
+  html_document:
+    toc: true     
+    toc_float: true   
+    theme: cerulean  
+    highlight: tango 
 vignette: >
   %\VignetteIndexEntry{Wavelet Matrix Overview}
   %\VignetteEngine{knitr::rmarkdown}
@@ -81,8 +86,6 @@ image(W, main = "Wavelet Matrix (WavmatND)", xlab = "Columns", ylab = "Rows", co
 - **repeating()**: Creates repeated sequences from input vectors.
 
 
-For a more detailed demonstration, see WavmatND_demo1 and WavmatND_demo2 in the demo folder.
-
 
 ## 2. `WavPackMatWP()`
 **Description**: Constructs a wavelet packet transformation matrix using a low-pass filter. This matrix represents a transformation that decomposes signals into components at different levels of detail.
@@ -140,7 +143,6 @@ image(WP, main = "Wavelet Packet Matrix (WavPackMatWP)", xlab = "Columns", ylab 
   - **J**: Maximum number of decomposition levels.
   - **N**: Size of signal/matrix.
   
-For a more detailed demonstration, see WavmatND_demo1 and WavmatND_demo2 in the demo folder.
 
 
 ## 3. `WavPackMat()`
@@ -182,22 +184,20 @@ image(WP_opt, main = "Wavelet Transformation Matrix", xlab = "Columns", ylab = "
   - **N**: Size of the matrix.
 
 
-**getHGmat():** This function creates H and G matrices that are critical for constructing wavelet transformations with circular boundary conditions. The matrices ensure that the input signal is properly processed even when indices wrap around.
+**getHGmat():** This function creates h and g matrices that are critical for constructing wavelet transformations with circular boundary conditions. The matrices ensure that the input signal is properly processed even when indices wrap around.
 
 
-**Key Components of `getsubW()`**:
+**Key Components of `getHGmat()`**:
 
 - **Matrix Construction**: Creates the h and g matrices by applying the low-pass (h) and high-pass (g) filters.
 - **Boundary Handling**: Uses modulus operations to wrap around indices, ensuring the matrix respects circular boundary conditions.
 
-- **Arguments in `getsubW()`**:
+- **Arguments in `getHGmat()`**:
   - **k**: Current decomposition level.
   - **h**: Low-pass filter.
   - **g**: High-pass filter.
   - **J**: Maximum number of decomposition levels.
   - **N**: Size of the matrix.
-
-For a more detailed demonstration, see Wavmat_demo1 and Wavmat_demo2 in the demo folder.
 
 
 ## 4. Demo
@@ -303,8 +303,8 @@ Then, we reconstruct with the inverse transformation demonstrates high fidelity.
 
 
 
-**Demo 2:** Signal Denoising
 
+**Demo 2:** Signal Denoising
 ```{r WavPackMat-Signal Denoising Example}
 
 #Generate the "bumps" signal
@@ -542,6 +542,8 @@ We then apply the inverse transformation to reconstruct the original signal. We 
 By visualizing the original signal, its wavelet coefficients, the reconstructed signal, and the reconstruction error, this demo shows how wavelet packet transformations are used in signal analysis.
 
 
+
+
 ### WavmatND.R Demo
 
 **Demo 1:** Denoising a Noisy Doppler Signal Using Non-Decimated Wavelet Transform
@@ -767,11 +769,15 @@ We then apply a weighted reconstruction matrix which is used to balance the cont
 The denoised signal is the reconstructed using the inverse transformation. We visualize the original, noisy, and transformed signals. This approach demonstrates the NDWT's power in denoising tasks, providing high-resolution analysis.
 
 
-##References 
+## References 
 
-G. P. Nason, Wavelet methods in statistics with R (Springer New York, New York, NY, 2008). 
+**A. Ijaz**, Wavelet analysis in R. Data Science - Big Data Analytics in Production., (available at https://ahsanijaz.github.io/2016-09-13-EMG/). 
 
-Reveille’s wavelets, (available at https://people.tamu.edu/~brani/wavelet/). 
+**B. Vidakovic**, Statistical Modeling by wavelets (Wiley-Blackwell, Oxford, 2013). 
+
+**G. P. Nason**, Wavelet methods in statistics with R (Springer New York, New York, NY, 2008). 
+
+**Reveille’s wavelets**, (available at https://people.tamu.edu/~brani/wavelet/). 
 
 
 
