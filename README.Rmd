@@ -228,8 +228,12 @@ The `WaveletMatrixProject` package offers the following functionalities:
   - Explore wavelet coefficients using plots for better insight of their signal components.
 
 
+
 ## Vignette
-For a detailed overview and examples, look at the [WaveletMatrixOverview vignette](https://github.com/saraantonijevic/WaveletMatrixProject/blob/main/inst/doc/WaveletMatrixOverview.html).
+For a detailed overview and examples, look at the [WaveletMatrixOverview vignette](https://saraantonijevic.github.io/WaveletMatrixProject/WaveletMatrixOverview.html).
+
+
+
 
 
 ## License
