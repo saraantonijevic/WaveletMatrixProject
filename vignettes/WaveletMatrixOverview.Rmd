@@ -3,10 +3,10 @@ title: "Wavelet Matrix Overview"
 author: "Sara Antonijevic"
 output:
   html_document:
-    toc: true     
-    toc_float: true   
-    theme: cerulean  
-    highlight: tango 
+    toc: true         # Enables the table of contents
+    toc_float: true   # Makes the table of contents float on the left
+    theme: cerulean   # Clean, modern theme
+    highlight: tango  # Syntax highlighting
 vignette: >
   %\VignetteIndexEntry{Wavelet Matrix Overview}
   %\VignetteEngine{knitr::rmarkdown}
@@ -200,9 +200,9 @@ image(WP_opt, main = "Wavelet Transformation Matrix", xlab = "Columns", ylab = "
   - **N**: Size of the matrix.
 
 
-## 4. Demo
+# Demo
 
-### Wavmat.R Demo
+## Wavmat.R Demo
 
 **Demo 1:** Image Processing on Lena Data
 ```{r WavPackMat-Lena Example}
@@ -417,7 +417,7 @@ The denoised signal is reconstructed by applying the inverse transformation to t
 
 
 
-### WavmatWP.R 
+## WavmatWP.R 
 
 **Demo 1:** Transformation and Reconstruction
 ```{r WavPackMatWP-Transformation and Reconstruction}
@@ -539,12 +539,8 @@ In the demo, using Haar wavelet filter coefficients, we construct a wavelet pack
 
 We then apply the inverse transformation to reconstruct the original signal. We do this in order to demonstrate the fidelity of the transformation process. The minimal difference between the original and reconstructed signals is displayed to confirm the accuracy and robustness of the wavelet packet.
 
-By visualizing the original signal, its wavelet coefficients, the reconstructed signal, and the reconstruction error, this demo shows how wavelet packet transformations are used in signal analysis.
 
-
-
-
-### WavmatND.R Demo
+## WavmatND.R Demo
 
 **Demo 1:** Denoising a Noisy Doppler Signal Using Non-Decimated Wavelet Transform
 ```{r WavPackMatND- Denoising a Noisy Doppler Signal}
@@ -769,7 +765,7 @@ We then apply a weighted reconstruction matrix which is used to balance the cont
 The denoised signal is the reconstructed using the inverse transformation. We visualize the original, noisy, and transformed signals. This approach demonstrates the NDWT's power in denoising tasks, providing high-resolution analysis.
 
 
-## References 
+# References 
 
 **A. Ijaz**, Wavelet analysis in R. Data Science - Big Data Analytics in Production., (available at https://ahsanijaz.github.io/2016-09-13-EMG/). 
 
