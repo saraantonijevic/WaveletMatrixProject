@@ -6,4 +6,8 @@
 ^Meta$
 ^README\.Rmd$
 ^README\.html$
+^vignettes$
+
+
+
 
