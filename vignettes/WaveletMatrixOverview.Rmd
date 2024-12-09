@@ -3,10 +3,10 @@ title: "Wavelet Matrix Overview"
 author: "Sara Antonijevic"
 output:
   html_document:
-    toc: true         # Enables the table of contents
-    toc_float: true   # Makes the table of contents float on the left
-    theme: cerulean   # Clean, modern theme
-    highlight: tango  # Syntax highlighting
+    toc: true 
+    toc_float: true 
+    theme: cerulean   
+    highlight: tango
 vignette: >
   %\VignetteIndexEntry{Wavelet Matrix Overview}
   %\VignetteEngine{knitr::rmarkdown}
