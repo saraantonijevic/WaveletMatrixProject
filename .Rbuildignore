@@ -5,10 +5,5 @@
 ^doc$
 ^Meta$
 ^README\.Rmd$
-^vignettes$
 ^README\.html$
 ^docs$
-
-
-
-
